@@ -1,0 +1,9 @@
+keys:
+  - &yuki age1suusxjc3k3tc82n45sygzuwfx7uh95gt0c3g6la959260th9tsnq9j6jxt
+  - &host_atropine age1uvfvuvj0k4damar8t6urt4w9dmehf06xhz5xp2p9jj6vy8vdlyaqcenktq
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *yuki
+        - *host_atropine

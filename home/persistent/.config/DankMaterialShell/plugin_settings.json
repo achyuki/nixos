@@ -1,0 +1,7 @@
+{
+  "dockerManager": {
+    "enabled": true,
+    "dockerBinary": "podman",
+    "terminalApp": "kitty --hold"
+  }
+}
