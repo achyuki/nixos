@@ -420,15 +420,15 @@
       ],
       "rightWidgets": [
         {
+          "id": "privacyIndicator",
+          "enabled": true
+        },
+        {
           "id": "systemTray",
           "enabled": true
         },
         {
           "id": "notificationButton",
-          "enabled": true
-        },
-        {
-          "id": "privacyIndicator",
           "enabled": true
         },
         {
