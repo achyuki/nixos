@@ -131,6 +131,7 @@
 
       fill = {
         disabled = false;
+        style = "overlay";
         symbol = " ";
       };
 
