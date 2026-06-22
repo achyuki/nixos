@@ -90,6 +90,7 @@
       {
         devShells = flake.devshell { inherit inputs pkgs lib util; };
         packages = util.loadPackages pkgs ./packages;
+        formatter = pkgs.nixfmt;
       }
     );
 }

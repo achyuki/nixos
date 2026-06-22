@@ -32,7 +32,6 @@ in
       ];
   };
 
-  pref.isContainer = true;
   pref.nix-cnmirror = true;
 }
 // {
