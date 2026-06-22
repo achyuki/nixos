@@ -1,9 +1,9 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    which
     wget
     unzip
-    tree
     eza
     dig
     whois

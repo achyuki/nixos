@@ -38,10 +38,10 @@
       url = "github:AvengeMedia/DankMaterialShell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    noctalia = {
+    /*noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
+    };*/
     nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
