@@ -8,7 +8,6 @@
     # Themes
     adwaita-icon-theme
     darkly
-    darkly-qt5
 
     # Cursors
     bibata-cursors
