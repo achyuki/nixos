@@ -52,7 +52,12 @@ in
   };
   pref.nix-cnmirror = true;
   #disko.devices.disk.main.device = "/dev/sda";
-  
+
+  hardware.graphics.enable = true;
+  hardware.nvidia = {
+    modesetting.enable = true;
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
+  };
 }
 // {
   home-manager.users.yuki.home.stateVersion = nixosVersion;
