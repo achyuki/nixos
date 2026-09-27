@@ -1,9 +1,0 @@
-_: {
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-    settings.KbdInteractiveAuthentication = false;
-    settings.PermitRootLogin = "prohibit-password";
-  };
-  programs.ssh.startAgent = true;
-}

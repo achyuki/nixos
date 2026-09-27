@@ -55,6 +55,7 @@ Settings available in plugin settings:
 
 - **Docker Binary**: Path to docker or podman binary (default: `docker`)
 - **Debounce Delay**: The delay before refreshing the container list after receiving Docker Events (default: `300ms`)
+- **Background Polling Interval**: Fallback polling interval in case event-based updates aren't working reliably. 0 = disabled. (defualt: `0ms`)
 - **Terminal Application**: Command for terminal windows (default: `alacritty --hold`)
 - **Shell Path**: Shell for container exec (default: `/bin/sh`)
 - **Show Port Mappings**: Toggle display of container port mappings when expanding containers (default: `true`)

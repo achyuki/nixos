@@ -19,11 +19,11 @@
       };
       environment = {
         DISPLAY = ":0";
-        XDG_CURRENT_DESKTOP = "niri";
-        XMODIFIERS = "@im=fcitx";
-        # GTK_IM_MODULE = "fcitx";
-        QT_IM_MODULE = "fcitx";
-        QT_QPA_PLATFORMTHEME = "qt5ct";
+        # https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland
+        #XMODIFIERS = "@im=fcitx";
+        #GTK_IM_MODULE = "fcitx";
+        #QT_IM_MODULE = "fcitx";
+        QT_QPA_PLATFORMTHEME = "qt6ct";
         LC_MESSAGES = "zh_CN.UTF-8";
       };
       spawn-at-startup = [

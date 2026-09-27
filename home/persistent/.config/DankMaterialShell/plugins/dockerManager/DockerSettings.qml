@@ -42,6 +42,17 @@ PluginSettings {
         leftIcon: "schedule"
     }
 
+    SliderSetting {
+        settingKey: "pollingInterval"
+        label: "Background Polling Interval"
+        description: "Fallback polling interval to refresh container state. Useful when event-based updates don't work reliably in the background. Set to 0 to disable polling."
+        defaultValue: DockerService.defaults.pollingInterval
+        minimum: 0
+        maximum: 120000
+        unit: "ms"
+        leftIcon: "sync"
+    }
+
     StringSetting {
         settingKey: "terminalApp"
         label: "Terminal Application"

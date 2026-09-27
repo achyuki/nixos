@@ -1,4 +1,4 @@
-{ config, pkgs, modules, ... }:
+{ modules, ... }:
 let
   nixosVersion = "26.05";
   hostName = "unk";
@@ -14,18 +14,16 @@ in
       users.root users.yuki
 
       # Base
-      boot kernel initrd locale net nix zram sops docs git
-      openssh gpg-agent tailscale dae
+      boot kernel initrd net zram
+      tailscale dae
 
       # Desktop
-      audio bluetooth fonts greetd security polkit
-      dconf upower gvfs accounts
-      #polkit-agent
+      audio bluetooth fonts greetd polkit dbus mtp
 
       # Packages
-      nix-ld nvim htop tmux direnv # base
-      android-tools extpkgs # tools
-      podman distrobox libvirt #wine # virt
+      fhs nix-ld direnv nvim
+      podman distrobox libvirt
+      extpkgs
     ];
   pref.home-manager.yuki = {
     enable = true;
@@ -35,29 +33,25 @@ in
       with packages;
       [
         # Desktop
-        niri-dms shell starship stylix kitty fcitx5 dolphin theme
+        niri-dms
 
         # Packages
-        git # non-gui
-        firefox obs-studio vlc mission-center flclash # system
-        kdeconnect localsend # tools
-        vscode # develop
-        telegram flatpak.chat # social
-
-        # Persistent data
-        persistent
+        obs-studio localconn chrome #firefox
+        devenv develop obsidian splayer
+        workstation libreoffice
+        steam wine
+        chatapp
 
         ./home.nix
       ];
   };
-  pref.nix-cnmirror = true;
+  pref = {
+    nix-cnmirror = true;
+    nix-autogc = true;
+    ssh-strict = true;
+  };
   #disko.devices.disk.main.device = "/dev/sda";
 
-  hardware.graphics.enable = true;
-  hardware.nvidia = {
-    modesetting.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
-  };
 }
 // {
   home-manager.users.yuki.home.stateVersion = nixosVersion;

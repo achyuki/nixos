@@ -20,7 +20,7 @@
       XMODIFIERS = "@im=fcitx";
       # GTK_IM_MODULE = "fcitx";
       QT_IM_MODULE = "fcitx";
-      QT_QPA_PLATFORMTHEME = "qt5ct";
+      QT_QPA_PLATFORMTHEME = "qt6ct";
     };
 
   };

@@ -1,19 +1,10 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    which
-    wget
-    unzip
-    eza
-    dig
-    whois
-    bat
-    ripgrep
-    fastfetch
-    hyfetch
-    lsof
-    psmisc
-    pciutils
-    usbutils
+    pciutils usbutils
+    fastfetch hyfetch btop
+    ripgrep fd eza fzf zellij jq
+    dig whois nmap
+
   ];
 }

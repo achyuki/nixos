@@ -2,8 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
-  modules,
   ...
 }:
 let
@@ -22,16 +20,16 @@ in
   config = {
     users.users."${username}" = {
       isNormalUser = true;
-      description = "AcetylYuki";
+      description = "YukiChan";
       shell = pkgs.fish;
       extraGroups = [
         "wheel"
         "networkmanager"
         "podman"
         "libvirtd"
-        "adbusers"
+        "input"
       ];
-      hashedPasswordFile = config.sops.secrets.password00.path;
+      hashedPasswordFile = config.age.secrets.password00.path;
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOqNxUrlnSLf8Vr0RPOPydlwRltW0kMboxtxwLV/gBTV"
       ];

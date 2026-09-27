@@ -8,28 +8,31 @@
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
     noto-fonts-color-emoji
-    lxgw-wenkai
+    lxgw-wenkai-screen
     maple-mono.Normal-NF
   ];
 
-  fonts.fontconfig = {
+  fonts = {
+    enableDefaultPackages = true;
+    fontDir.enable = true;
+    fontconfig = {
     enable = true;
     antialias = true;
     useEmbeddedBitmaps = true;
     hinting.enable = true;
     defaultFonts = {
       serif = [
-        "LXGW WenKai"
+        "LXGW WenKai Screen"
         "Noto Serif CJK SC"
       ];
       sansSerif = [
-        "LXGW WenKai"
+        "LXGW WenKai Screen"
         "Noto Sans CJK SC"
       ];
       monospace = [ "Maple Mono Normal NF" ];
       emoji = [ "Noto Color Emoji" ];
     };
   };
+  };
 
-  fonts.fontDir.enable = true;
 }

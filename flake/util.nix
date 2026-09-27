@@ -19,7 +19,7 @@ lib: rec {
 
   loadModules = directory: collectModules (path: import path) directory;
 
-  loadPackages = pkgs: directory: collectModules (path: pkgs.callPackage path {}) directory;
+  loadPackages = pkgs: directory: collectModules (path: pkgs.callPackage path { }) directory;
 
   loadOverlays = directory: lib.attrValues (loadModules directory);
 

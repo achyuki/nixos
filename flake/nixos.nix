@@ -14,7 +14,7 @@ lib.concatMapAttrs (
     path:
     lib.nixosSystem {
       system = platform;
-      modules = with modules.nixosModules; (_global ++ [ internal path ]);
+      modules = with modules.nixosModules; (_global ++ [ base path ]);
       specialArgs = { inherit inputs util modules; };
     }
   ) "${configPath}/${platform}"

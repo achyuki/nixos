@@ -1,9 +1,8 @@
-{ pkgs, ... }:
+_:
 {
   programs.dank-material-shell = {
     enable = true;
     # systemd.enable = true;
-    # quickshell.package = pkgs.quickshell;
     niri = {
       enableKeybinds = false; # Sets static preset keybinds
       enableSpawn = true; # Auto-start DMS with niri, if enabled
@@ -22,6 +21,7 @@
           "wpblur"
           "cursor"
           "windowrules"
+          "input"
         ];
       };
     };

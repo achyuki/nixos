@@ -1,1 +1,1 @@
-## AcetylYuki's NixOS Configurations!
+## YukiChan's NixOS Configurations

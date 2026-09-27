@@ -10,11 +10,12 @@ Item {
     id: root
 
     readonly property var defaults: ({
-            debounceDelay: 300,
-            dockerBinary: "docker",
-            terminalApp: "alacritty --hold",
-            shellPath: "/bin/sh"
-        })
+        debounceDelay: 300,
+        dockerBinary: "docker",
+        terminalApp: "alacritty --hold",
+        shellPath: "/bin/sh",
+        pollingInterval: 0
+    })
 
     readonly property string pluginId: "dockerManager"
 
@@ -24,6 +25,7 @@ Item {
     property string dockerBinary: defaults.dockerBinary
     property string terminalApp: defaults.terminalApp
     property string shellPath: defaults.shellPath
+    property int pollingInterval: defaults.pollingInterval
 
     function loadSettings() {
         const load = key => PluginService.loadPluginData(pluginId, key) || defaults[key];
@@ -31,6 +33,7 @@ Item {
         dockerBinary = load("dockerBinary");
         terminalApp = load("terminalApp");
         shellPath = load("shellPath");
+        pollingInterval = load("pollingInterval");
 
         refresh();
     }
@@ -102,7 +105,27 @@ Item {
             if (dockerAvailable) {
                 console.log("DockerManager: Attempting to restart events listener...");
                 eventsProcess.running = true;
+            } else {
+                refresh();
+                eventsProcess.running = true;
             }
+        }
+    }
+
+    property var availabilityRetryTimer: Timer {
+        interval: 5000
+        running: false
+        repeat: false
+        onTriggered: refresh()
+    }
+
+    property var pollingTimer: Timer {
+        interval: root.pollingInterval
+        running: root.dockerAvailable && root.pollingInterval > 0
+        repeat: true
+        onTriggered: {
+            console.log("DockerManager: Polling for container state updates");
+            fetchContainers();
         }
     }
 
@@ -124,12 +147,13 @@ Item {
                 fetchContainers();
             } else {
                 updateContainers();
+                availabilityRetryTimer.start();
             }
         }, 100);
     }
 
     function fetchContainers() {
-        Proc.runCommand(`${pluginId}.dockerInspect`, ["sh", "-c", `${dockerBinary} container inspect $(${dockerBinary} container ls -aq)`], (stdout, exitCode) => {
+        Proc.runCommand(`${pluginId}.dockerInspect`, ["sh", "-c", sh`${dockerBinary} container inspect $(${dockerBinary} container ls -aq)`], (stdout, exitCode) => {
             if (exitCode === 0) {
                 try {
                     const containers = JSON.parse(stdout).map(container => {
@@ -139,7 +163,7 @@ Item {
                             const startedAt = new Date(container.State?.StartedAt || 0).getTime();
                             const finishedAt = new Date(container.State?.FinishedAt || 0).getTime();
                             const lastActivity = Math.max(startedAt, finishedAt);
-                            
+
                             const ports = [];
                             const portBindings = container.NetworkSettings?.Ports || {};
                             for (const [containerPort, hostBindings] of Object.entries(portBindings)) {
@@ -255,30 +279,33 @@ Item {
         return false;
     }
 
-    function executeComposeAction(workingDir, configFile, action) {
+    function executeComposeAction(workingDir, configFiles, action) {
         if (!workingDir) {
             console.error("DockerManager: Cannot execute compose action without working directory");
             return false;
         }
+        const configFlags = [];
+        for (const configFile of configFiles.split(',')) {
+            configFlags.push("-f", configFile.trim());
+        }
 
         const composeCommands = {
-            up: [dockerBinary, "compose", "-f", configFile, "up", "-d"],
-            down: [dockerBinary, "compose", "-f", configFile, "down"],
-            restart: [dockerBinary, "compose", "-f", configFile, "restart"],
-            stop: [dockerBinary, "compose", "-f", configFile, "stop"],
-            start: [dockerBinary, "compose", "-f", configFile, "start"],
-            pull: [dockerBinary, "compose", "-f", configFile, "pull"],
-            logs: null
+            up: ["up", "-d"],
+            down: ["down"],
+            restart: ["restart"],
+            stop: ["stop"],
+            start: ["start"],
+            pull: ["pull"],
         };
 
         if (action === "logs") {
-            const cmd = `cd "${workingDir}" && ${dockerBinary} compose -f ${configFile} logs -f`;
-            Quickshell.execDetached(["sh", "-c", `${terminalApp} -e sh -c '${cmd}'`]);
+            const cmd = sh`cd ${workingDir} && ${dockerBinary} compose ${configFlags} logs -f`;
+            Quickshell.execDetached(["sh", "-c", sh`${raw(terminalApp)} -e sh -c ${cmd}`]);
             return true;
         }
 
         if (composeCommands[action]) {
-            const cmd = ["sh", "-c", `cd "${workingDir}" && ${composeCommands[action].join(" ")}`];
+            const cmd = ["sh", "-c", sh`cd ${workingDir} && ${dockerBinary} compose ${configFlags} ${composeCommands[action]}`];
             const cmdArray = systemdRunAvailable ? ["systemd-run", "--user", "--scope", "--", ...cmd] : cmd;
             Quickshell.execDetached(cmdArray);
             Qt.callLater(() => {
@@ -290,10 +317,40 @@ Item {
     }
 
     function openLogs(containerId) {
-        Quickshell.execDetached(["sh", "-c", terminalApp + " -e " + dockerBinary + " logs -f " + containerId]);
+        Quickshell.execDetached(["sh", "-c", sh`${raw(terminalApp)} -e ${dockerBinary} logs -f ${containerId}`]);
     }
 
     function openExec(containerId) {
-        Quickshell.execDetached(["sh", "-c", terminalApp + " -e " + dockerBinary + " exec -it " + containerId + " " + shellPath]);
+        Quickshell.execDetached(["sh", "-c", sh`${raw(terminalApp)} -e ${dockerBinary} exec -it ${containerId} ${shellPath}`]);
+    }
+
+    function sh(literals, ...values) {
+        return values.reduce((prev, value, i) => prev + escapeShell(value) + literals[i + 1], literals[0]);
+    }
+
+    function raw(arg) {
+        return { shRaw: arg }
+    }
+
+    function escapeShell(arg) {
+        if (arg == null) {
+            return "";
+        }
+        
+        if (Array.isArray(arg)) {
+            return arg.map(x => escapeShell(x)).join(" ");
+        }
+        
+        if (arg?.shRaw) {
+            return arg.shRaw;
+        }
+
+        const str = String(arg);
+        
+        if (/^[\w-+=/.,]+$/.test(str)) {
+            return str;
+        }
+        
+        return `'${str.replace(/'/g, `'"'"'`)}'`;
     }
 }

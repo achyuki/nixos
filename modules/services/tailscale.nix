@@ -2,6 +2,6 @@
 {
   services.tailscale = {
     enable = true;
-    authKeyFile = config.sops.secrets.tailscale_key.path;
+    authKeyFile = config.age.secrets.tailscale.path;
   };
 }

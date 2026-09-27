@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modules, ... }:
+{ modules, ... }:
 let
   nixosVersion = "26.05";
   hostName = "ice";
@@ -12,11 +12,9 @@ in
     [
       users.root users.yuki
 
-      droidspaces nix locale security sops
-      openssh gpg-agent
+      droidspaces
 
-      git nix-ld nvim htop
-      extpkgs
+      nix-ld nvim
   ];
 
   pref.home-manager.yuki = {
@@ -25,14 +23,17 @@ in
       with modules.homeModules;
       with packages;
       [
-        git shell starship atuin
-        
-        persistent
+        component.shell
+
         ./home.nix
       ];
   };
 
-  pref.nix-cnmirror = true;
+  pref = {
+    nix-cnmirror = true;
+    nix-autogc = true;
+    ssh-strict = true;
+  };
 }
 // {
   nixpkgs.hostPlatform = "aarch64-linux";

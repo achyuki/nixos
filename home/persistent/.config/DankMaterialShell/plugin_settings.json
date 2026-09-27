@@ -1,7 +1,42 @@
 {
   "dockerManager": {
-    "enabled": true,
+    "enabled": false,
     "dockerBinary": "podman",
     "terminalApp": "kitty --hold"
+  },
+  "quickCapture": {
+    "enabled": true
+  },
+  "bongoCat": {
+    "enabled": true,
+    "catSizePercent": 95,
+    "waitingTimeout": 5,
+    "showMetrics": false,
+    "catColorMode": "classic",
+    "mouseEnabled": false,
+    "enableBlinking": true,
+    "classicIdle": false,
+    "soundEnabled": false
+  },
+  "wallpaperCarousel": {
+    "enabled": true,
+    "carouselMode": "infinite",
+    "overlayOpacity": 10,
+    "borderWidth": 1,
+    "itemWidth": 219,
+    "itemHeight": 303,
+    "expandSelected": "true",
+    "enableHoldExpand": "false",
+    "holdExpandRatio": 35,
+    "expandMultiplier": 250,
+    "selectedScale": 100,
+    "cornerRadius": 0
+  },
+  "dankKDEConnect": {
+    "enabled": true,
+    "selectedDeviceId": "3966c56e3d6a4eeca0123df13957e84a"
+  },
+  "nixPackageRunner": {
+    "enabled": true
   }
 }
