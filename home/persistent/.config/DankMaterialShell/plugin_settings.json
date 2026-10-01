@@ -37,6 +37,7 @@
     "selectedDeviceId": "3966c56e3d6a4eeca0123df13957e84a"
   },
   "nixPackageRunner": {
-    "enabled": true
+    "enabled": true,
+    "runInTerminal": true
   }
 }

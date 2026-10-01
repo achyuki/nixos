@@ -37,7 +37,7 @@ in
 
         # Packages
         obs-studio localconn chrome #firefox
-        devenv develop obsidian splayer
+        devenv develop obsidian splayer clash
         workstation libreoffice
         steam wine
         chatapp
