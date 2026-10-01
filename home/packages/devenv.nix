@@ -5,7 +5,7 @@
       android-tools
       gcc clang-tools
       python3 uv
-      fnm pnpm
+      nodejs_26 pnpm
       nixd nixfmt
 
     ];
@@ -19,8 +19,4 @@
       '';
     };
   };
-
-  programs.fish.shellInit = ''
-    fnm env --shell fish|source
-  '';
 }
