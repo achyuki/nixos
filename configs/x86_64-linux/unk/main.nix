@@ -1,4 +1,4 @@
-{ modules, ... }:
+{ lib, modules, ... }:
 let
   nixosVersion = "26.05";
   hostName = "unk";
@@ -51,6 +51,10 @@ in
     ssh-strict = true;
   };
   #disko.devices.disk.main.device = "/dev/sda";
+
+  services.udev.extraRules = ''
+    SUBSYSTEM=="hidraw", MODE="0666"
+  '';
 
 }
 // {

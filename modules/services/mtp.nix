@@ -2,8 +2,8 @@
 {
   services.udev = {
     enable = true;
-    packages = [ 
+    packages = [
       pkgs.libmtp.out
-  ];
-};
+    ];
+  };
 }
