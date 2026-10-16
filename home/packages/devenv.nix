@@ -11,6 +11,7 @@
 
     ];
     sessionPath = [
+      "$HOME/.local/bin"
       "$HOME/.npm/bin"
     ];
     file = {

@@ -14,7 +14,7 @@ in
       users.root users.yuki
 
       # Base
-      boot kernel initrd net zram
+      boot kernel initrd network zram
       tailscale dae
 
       # Desktop

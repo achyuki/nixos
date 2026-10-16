@@ -7,8 +7,7 @@
     ./noctalia.nix
 
     ../components/dolphin.nix
-    ../components/gnome-apps.nix
-    ../components/mission-center.nix
+    ../components/sysapps.nix
     ../components/kitty.nix
     ../components/fcitx5.nix
     ../components/shell.nix
