@@ -86,7 +86,7 @@
     "niri"
   ],
   "widgetBackgroundColor": "sth",
-  "mouseScrollFactor": 1.5,
+  "mouseScrollFactor": 1,
   "audioShowStreamDevices": true,
   "barElevationEnabled": false,
   "blurBorderSeeded": true,

@@ -5,6 +5,7 @@
     fastfetch hyfetch btop
     ripgrep fd eza fzf zellij jq
     dig whois nmap
+    rclone ffmpeg
 
   ];
 }

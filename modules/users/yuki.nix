@@ -28,6 +28,7 @@ in
         "podman"
         "libvirtd"
         "input"
+        "wireshark"
       ];
       hashedPasswordFile = config.age.secrets.password00.path;
       openssh.authorizedKeys.keys = [

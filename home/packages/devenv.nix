@@ -4,7 +4,8 @@
     packages = with pkgs; [
       android-tools
       gcc clang-tools
-      python3 uv
+      rustc cargo
+      (python3.withPackages (ps: with ps; [ pip ])) uv
       nodejs_26 pnpm
       nixd nixfmt
 

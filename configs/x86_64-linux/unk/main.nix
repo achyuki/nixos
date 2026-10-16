@@ -21,9 +21,9 @@ in
       audio bluetooth fonts greetd polkit dbus mtp
 
       # Packages
-      fhs nix-ld direnv nvim
+      fhs nix-ld direnv fuse nvim
       podman distrobox libvirt
-      extpkgs
+      extpkgs wireshark
     ];
   pref.home-manager.yuki = {
     enable = true;
