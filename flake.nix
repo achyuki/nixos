@@ -5,15 +5,15 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     flake-utils.url = "github:numtide/flake-utils";
-    nixos-hardware.url = "github:nixos/nixos-hardware";
+    #nixos-hardware.url = "github:nixos/nixos-hardware";
     nur = {
       url = "github:nix-community/nur";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    disko = {
+    /*disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
+    };*/
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,10 +22,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    stylix = {
+    /*stylix = {
       url = "github:nix-community/stylix?ref=pull/2503/merge"; # TODO
       inputs.nixpkgs.follows = "nixpkgs";
-    };
+    };*/
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -67,7 +67,7 @@
       modules = {
         nixosModules = util.loadModules ./modules // {
           _global = with inputs; [
-            disko.nixosModules.disko
+            #disko.nixosModules.disko
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
             nix-index-database.nixosModules.default

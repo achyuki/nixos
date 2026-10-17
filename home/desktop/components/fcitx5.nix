@@ -7,8 +7,9 @@
       addons = with pkgs; [
         fcitx5-gtk
         fcitx5-rime-ice
+        fcitx5-mellow-themes
       ];
-      settings = {
+      /*settings = {
         inputMethod = {
           GroupOrder."0" = "Default";
           "Groups/0" = {
@@ -18,9 +19,9 @@
           };
           "Groups/0/Items/0".Name = "rime";
         };
-      };
+      };*/
       waylandFrontend = true;
     };
   };
-  stylix.targets.fcitx5.enable = true;
+  #stylix.targets.fcitx5.enable = true;
 }

@@ -988,5 +988,8 @@
         "syncPositionAcrossScreens": true
       }
     }
-  ]
+  ],
+  "notepadShowLineNumbers": true,
+  "notepadTransparencyOverride": -1,
+  "notepadDefaultMode": "slideout"
 }

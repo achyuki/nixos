@@ -4,10 +4,10 @@
   ...
 }:
 {
-  imports = [ inputs.stylix.homeModules.stylix ];
+  /*imports = [ inputs.stylix.homeModules.stylix ];
 
   stylix = {
-    enable = true;
+    enable = false;
     autoEnable = false;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine.yaml";
     polarity = "dark";
@@ -36,7 +36,7 @@
         emoji.package = pkgs.noto-fonts-color-emoji;
       };
     */
-  };
+  #};
 
   home.packages = with pkgs; [
     # Themes
