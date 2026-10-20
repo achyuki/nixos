@@ -3,7 +3,7 @@ _:
   programs.dank-material-shell = {
     enable = true;
     # systemd.enable = true;
-    niri = {
+    /*niri = {
       enableKeybinds = false; # Sets static preset keybinds
       enableSpawn = true; # Auto-start DMS with niri, if enabled
       includes = {
@@ -24,7 +24,7 @@ _:
           "input"
         ];
       };
-    };
+    };*/
   };
   # systemd.user.services.niri-flake-polkit.enable = false;
 }

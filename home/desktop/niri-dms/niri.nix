@@ -1,20 +1,22 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
-  programs.niri = {
+  wayland.windowManager.niri = {
     enable = true;
     package = pkgs.niri;
     settings = {
-      hotkey-overlay.skip-at-startup = true;
-      gestures.hot-corners.enable = false;
-      prefer-no-csd = true;
+      hotkey-overlay.skip-at-startup = { };
+      gestures.hot-corners = {
+        off = { };
+      };
+      prefer-no-csd = { };
       screenshot-path = "~/Pictures/Screenshots/Screenshot_%Y-%m-%d_%H-%M-%S.png";
 
       input = {
-        focus-follows-mouse.enable = true;
-        keyboard.numlock = true;
+        #focus-follows-mouse = {};
+        keyboard.numlock = { };
         touchpad = {
-          tap = true;
-          natural-scroll = true;
+          tap = { };
+          natural-scroll = { };
         };
       };
       environment = {
@@ -26,15 +28,24 @@
         QT_QPA_PLATFORMTHEME = "qt6ct";
         LC_MESSAGES = "zh_CN.UTF-8";
       };
-      spawn-at-startup = [
-        { command = [ "${pkgs.xwayland-satellite}/bin/xwayland-satellite" ]; }
-      ];
-      binds = with config.lib.niri.actions; {
-        "Mod+E" = {
-          hotkey-overlay.title = "Open File Manager";
-          action.spawn = "dolphin";
-        };
+      binds = {
+        "Mod+E".spawn = "dolphin";
       };
+      _children = [
+        { include = { _props = { optional = true; }; _args = [ "dms/alttab.kdl" ]; }; }
+        { include = { _props = { optional = true; }; _args = [ "dms/binds.kdl" ]; }; }
+        { include = { _props = { optional = true; }; _args = [ "dms/colors.kdl" ]; }; }
+        { include = { _props = { optional = true; }; _args = [ "dms/cursor.kdl" ]; }; }
+        { include = { _props = { optional = true; }; _args = [ "dms/input.kdl" ]; }; }
+        { include = { _props = { optional = true; }; _args = [ "dms/layout.kdl" ]; }; }
+        { include = { _props = { optional = true; }; _args = [ "dms/outputs.kdl" ]; }; }
+        { include = { _props = { optional = true; }; _args = [ "dms/windowrules.kdl" ]; }; }
+        { include = { _props = { optional = true; }; _args = [ "dms/wpblur.kdl" ]; }; }
+
+        { spawn-at-startup._args = [ "dms" "run" ]; }
+      ];
     };
   };
+  services.gnome-keyring.enable = true;
+
 }
