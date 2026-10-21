@@ -6,7 +6,7 @@
   ...
 }:
 let
-  configPath = ../configs;
+  configPath = ../hosts;
 in
 lib.concatMapAttrs (
   platform: _:
