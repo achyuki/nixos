@@ -54,6 +54,27 @@
         "type": "github"
       }
     },
+    "dank-greeter": {
+      "inputs": {
+        "dank-qml-common": "dank-qml-common",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792609211,
+        "narHash": "sha256-ZHbhVOg0p2PpxrynYaEFafGgnuR43e4DXEIEusw3b/Q=",
+        "owner": "duxlabs-dev",
+        "repo": "dux-greeter",
+        "rev": "d85f83edd799bcf58841bbd2b536e04058918319",
+        "type": "github"
+      },
+      "original": {
+        "owner": "duxlabs-dev",
+        "repo": "dux-greeter",
+        "type": "github"
+      }
+    },
     "dank-qml-common": {
       "flake": false,
       "locked": {
@@ -62,6 +83,22 @@
         "owner": "duxlabs-dev",
         "repo": "dux-qml-common",
         "rev": "ebf5e6c002da1bdaa4aaa2f319fea7b8507abc42",
+        "type": "github"
+      },
+      "original": {
+        "owner": "duxlabs-dev",
+        "repo": "dux-qml-common",
+        "type": "github"
+      }
+    },
+    "dank-qml-common_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792597131,
+        "narHash": "sha256-2t9btOQ2owoRv/fgeonlr8cHVt2NUvUu9iXdZd9+QFc=",
+        "owner": "duxlabs-dev",
+        "repo": "dux-qml-common",
+        "rev": "5715e8ea868f3a131a0f54c7a5875e9a95f2f253",
         "type": "github"
       },
       "original": {
@@ -92,18 +129,18 @@
     },
     "dms": {
       "inputs": {
-        "dank-qml-common": "dank-qml-common",
+        "dank-qml-common": "dank-qml-common_2",
         "flake-compat": "flake-compat",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1792569465,
-        "narHash": "sha256-H6bZE6MkwIDP9yQEW1CDvvbMQviepWGz6JWsJob+gro=",
+        "lastModified": 1792634293,
+        "narHash": "sha256-RDk4oMEIGlRVcc072IQ4/b4DEAHnncHg+4IHsoAxlVI=",
         "owner": "AvengeMedia",
         "repo": "DankMaterialShell",
-        "rev": "479b1434de3fb5077c2471072e2155e177ce14c5",
+        "rev": "47c9d8d89bfbf70aa667ec90c1c5f30d9a726d6d",
         "type": "github"
       },
       "original": {
@@ -195,11 +232,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792495086,
-        "narHash": "sha256-TyoYH983Nsc++1scw0SoOEKshPSJWJDxK7tTmuZ974M=",
+        "lastModified": 1792605213,
+        "narHash": "sha256-J73EBU30r2hXvHCcBtaigQDAIu/GGPYk1nc6P9THcmg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "ec80131710bffcdf3b8498cf41f3a0579833b023",
+        "rev": "ab97a5d09e0f2aa7339cfd35ec5824fd6653e27c",
         "type": "github"
       },
       "original": {
@@ -217,11 +254,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1792575515,
-        "narHash": "sha256-0FC+hC5RFQGrqTKPeznwl0/KQqzPAl/6DaKHYobPfq0=",
+        "lastModified": 1792644304,
+        "narHash": "sha256-myLVvhZHmdb6CpgSzlfdRM2FRNWADQ0macbWpykODts=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "7246b0a1633dabd3065965148e473a29b7e66ba5",
+        "rev": "8be60c6b0c19a2893841dce14b0c23a8f690c294",
         "type": "github"
       },
       "original": {
@@ -283,11 +320,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1792503283,
-        "narHash": "sha256-vhe2jyvRCgufWPqDuDq1S3t3ypE+ka46IFutV02xKso=",
+        "lastModified": 1792615934,
+        "narHash": "sha256-MlvRfa1O5Cqc2/a+gG+l9TSuowEoCKCmrJ1d9oAVm0I=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "cd4ea8d57de16f4810bc5f14207bac45fbf19f67",
+        "rev": "da6dc0e7b26060f2f71ce3ef7088fb56ee44fa36",
         "type": "github"
       },
       "original": {
@@ -321,11 +358,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792574926,
-        "narHash": "sha256-/jC7FGtBu8Butqkd61Hvc1nsSzy4wML5hN3u5B0RUkg=",
+        "lastModified": 1792654632,
+        "narHash": "sha256-OSiP+J6DRaKBUgIJrk0PCT0hDa8WaRPmjHWYZ8AtQWs=",
         "owner": "nix-community",
         "repo": "nur",
-        "rev": "9e0024e0b92595f43350403bb671377b1b27c179",
+        "rev": "b4e5f7d5440209cd144830fc996c647190fd715a",
         "type": "github"
       },
       "original": {
@@ -337,6 +374,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "dank-greeter": "dank-greeter",
         "disko": "disko",
         "dms": "dms",
         "flake-utils": "flake-utils",

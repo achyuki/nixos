@@ -98,83 +98,111 @@
       "enabled": true,
       "w": 5,
       "h": 1,
-      "background": false
+      "background": false,
+      "col": 0,
+      "row": 0
     },
     {
       "id": "settings",
       "enabled": true,
       "w": 1,
       "h": 1,
-      "small": true
+      "small": true,
+      "col": 5,
+      "row": 0
     },
     {
       "id": "lock",
       "enabled": true,
       "w": 1,
       "h": 1,
-      "small": true
+      "small": true,
+      "col": 6,
+      "row": 0
     },
     {
       "id": "power",
       "enabled": true,
       "w": 1,
       "h": 1,
-      "small": true
+      "small": true,
+      "col": 7,
+      "row": 0
     },
     {
       "id": "volumeSlider",
       "enabled": true,
       "w": 4,
-      "h": 1
+      "h": 1,
+      "col": 0,
+      "row": 1
     },
     {
       "id": "brightnessSlider",
       "enabled": true,
       "w": 4,
-      "h": 1
+      "h": 1,
+      "col": 4,
+      "row": 1
     },
     {
       "id": "wifi",
       "enabled": true,
       "w": 4,
-      "h": 1
+      "h": 1,
+      "col": 0,
+      "row": 2
     },
     {
       "id": "bluetooth",
       "enabled": true,
       "w": 4,
-      "h": 1
+      "h": 1,
+      "col": 4,
+      "row": 2
     },
     {
       "id": "audioOutput",
       "enabled": true,
       "w": 4,
-      "h": 1
+      "h": 1,
+      "col": 0,
+      "row": 3
     },
     {
       "id": "audioInput",
       "enabled": true,
       "w": 4,
-      "h": 1
+      "h": 1,
+      "col": 4,
+      "row": 3
     },
     {
       "id": "darkMode",
       "enabled": true,
       "w": 4,
-      "h": 1
+      "h": 1,
+      "col": 0,
+      "row": 4,
+      "small": false
     },
     {
       "id": "idleInhibitor",
       "enabled": true,
       "w": 4,
-      "h": 1
+      "h": 1,
+      "col": 4,
+      "row": 4,
+      "small": false
     },
     {
       "id": "edit",
       "enabled": true,
       "w": 1,
       "h": 1,
-      "small": true
+      "small": true,
+      "col": 7,
+      "row": 5
     },
     {
       "id": "runningApps",
@@ -182,8 +210,17 @@
       "w": 4,
       "h": 1,
       "small": true,
+      "col": 2.5,
+      "row": 5
+    },
+    {
+      "id": "builtin_tailscale",
+      "enabled": true,
+      "w": 2.5,
+      "h": 1,
       "col": 0,
-      "row": 6
+      "row": 5,
+      "small": true
     }
   ],
   "appIdSubstitutions": [],
@@ -326,10 +363,10 @@
       "cursorHideTimeout": 0
     }
   },
-  "acMonitorTimeout": 600,
-  "acLockTimeout": 600,
-  "batteryMonitorTimeout": 600,
-  "batteryLockTimeout": 600,
+  "acMonitorTimeout": 1800,
+  "acLockTimeout": 0,
+  "batteryMonitorTimeout": 900,
+  "batteryLockTimeout": 0,
   "batteryNotifyLow": true,
   "fadeToLockEnabled": false,
   "fadeToLockGracePeriod": 1,
@@ -836,7 +873,7 @@
     {
       "id": "lock_date",
       "widgetType": "lockDate",
-      "enabled": false,
+      "enabled": true,
       "config": {
         "displayPreferences": [
           "all"
@@ -926,7 +963,7 @@
     {
       "id": "lock_date",
       "widgetType": "lockDate",
-      "enabled": false,
+      "enabled": true,
       "config": {
         "displayPreferences": [
           "all"
@@ -991,5 +1028,22 @@
   ],
   "notepadShowLineNumbers": true,
   "notepadTransparencyOverride": -1,
-  "notepadDefaultMode": "slideout"
+  "notepadDefaultMode": "slideout",
+  "popupTransparency": 0.87,
+  "blurEnabled": false,
+  "foregroundLayerTransparency": 0.4,
+  "blurForegroundLayers": true,
+  "blurLayerOutlineOpacity": 0,
+  "m3ElevationEnabled": true,
+  "batteryChargeLimit": 100,
+  "powerMenuActions": [
+    "reboot",
+    "logout",
+    "poweroff",
+    "lock",
+    "suspend",
+    "restart",
+    "hibernate"
+  ],
+  "lockPamExternallyManaged": false
 }

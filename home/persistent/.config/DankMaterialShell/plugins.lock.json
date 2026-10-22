@@ -4,12 +4,12 @@
     "bongoCat": {
       "repo": "https://github.com/hthienloc/dms-plugins",
       "path": "bongoCat",
-      "commit": "49c3fd7a23268af16adf29f72e00965e3ff61d02"
+      "commit": "193ececfed4a15128be0ff815ca50867e88f3307"
     },
     "dankKDEConnect": {
-      "repo": "https://github.com/AvengeMedia/dms-plugins",
+      "repo": "https://github.com/duxlabs-dev/dux-plugins",
       "path": "DankKDEConnect",
-      "commit": "a8a508bc371e7c3f2c7862d8840b88cf5c63978f"
+      "commit": "b827c2296cd45a73bf9318f16a261c9edeec8339"
     },
     "dockerManager": {
       "repo": "https://github.com/LuckShiba/DmsDockerManager",
@@ -22,7 +22,7 @@
     "quickCapture": {
       "repo": "https://github.com/hthienloc/dms-plugins",
       "path": "quickCapture",
-      "commit": "49c3fd7a23268af16adf29f72e00965e3ff61d02"
+      "commit": "193ececfed4a15128be0ff815ca50867e88f3307"
     },
     "wallpaperCarousel": {
       "repo": "https://github.com/motor-dev/wallpaperCarousel",

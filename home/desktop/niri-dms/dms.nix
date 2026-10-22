@@ -2,6 +2,7 @@ _:
 {
   programs.dank-material-shell = {
     enable = true;
+    enableCalendarEvents = false;
     # systemd.enable = true;
     /*niri = {
       enableKeybinds = false; # Sets static preset keybinds

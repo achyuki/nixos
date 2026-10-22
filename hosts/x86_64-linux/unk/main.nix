@@ -18,7 +18,7 @@ in
       tailscale dae
 
       # Desktop
-      audio bluetooth fonts greetd polkit dbus mtp
+      audio bluetooth fonts greetd polkit dbus udev
 
       # Packages
       fhs nix-ld direnv fuse nvim
@@ -52,6 +52,7 @@ in
   };
   #disko.devices.disk.main.device = "/dev/sda";
 
+  # TODO
   services.udev.extraRules = ''
     SUBSYSTEM=="hidraw", MODE="0666"
   '';

@@ -2,6 +2,7 @@
 {
   services.greetd = {
     enable = true;
+    useTextGreeter = true;
     settings.default_session.command =
       let
         inherit (config.services.displayManager.sessionData) desktops;

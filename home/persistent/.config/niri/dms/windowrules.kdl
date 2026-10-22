@@ -1,0 +1,22 @@
+// DMS Window Rules - Managed by Dux Shell
+// Do not edit manually - changes may be overwritten
+
+// @id=wr_1792586399230003639 @name=规则
+window-rule {
+    opacity 0.85
+    background-effect {
+        blur true
+    }
+}
+
+// @id=wr_1792650326890351507 @name=.virt-manager-wrapped
+window-rule {
+    match app-id="^.virt-manager-wrapped$"
+    opacity 1.00
+}
+
+// @id=dms-window-opaque @name=DMS Window Opaque
+window-rule {
+    match app-id="^(dev\\.duxlabs\\.shell|com\\.danklinux\\.dms)$"
+    opacity 1.00
+}

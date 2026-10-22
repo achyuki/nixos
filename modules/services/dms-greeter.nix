@@ -1,8 +1,8 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, inputs, ... }:
 {
-  imports = [ inputs.dms.nixosModules.greeter ];
+  imports = [ inputs.dank-greeter.nixosModules.default ];
 
-  programs.dank-material-shell.greeter = {
+  programs.dms-greeter = {
     enable = true;
     compositor.name = "niri";
     configHome = "/home/yuki";
@@ -10,4 +10,5 @@
 
   # Compositors must be installed via NixOS configuration to appear in DankGreeter, not via home-manager.
   environment.systemPackages = [ pkgs.niri ];
+  services.displayManager.sessionPackages = [ pkgs.niri ];
 }

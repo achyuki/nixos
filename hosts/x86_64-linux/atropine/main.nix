@@ -1,4 +1,4 @@
-{ lib, modules, ... }:
+{ config, lib, modules, ... }:
 let
   nixosVersion = "26.05";
   hostName = "atropine";
@@ -14,11 +14,11 @@ in
       users.root users.yuki
 
       # Base
-      boot kernel initrd network zram
+      boot kernel initrd network zram dms-greeter#greetd
       tailscale dae
 
       # Desktop
-      audio bluetooth fonts greetd polkit dbus mtp
+      audio bluetooth fonts polkit dbus udev
 
       # Packages
       fhs nix-ld direnv fuse nvim
@@ -38,23 +38,47 @@ in
         # Packages
         obs-studio localconn chrome #firefox
         devenv develop obsidian splayer clash
-        workstation
+        workstation libreoffice
         steam wine
         chatapp
 
         ./home.nix
       ];
   };
+  disko.devices.disk.main.device = "/dev/nvme0n1";
+
   pref = {
     nix-cnmirror = true;
     nix-autogc = true;
     ssh-strict = true;
   };
-  disko.devices.disk.main.device = "/dev/nvme0n1";
 
+
+  # TODO
   services.udev.extraRules = ''
     SUBSYSTEM=="hidraw", MODE="0666"
   '';
+
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia = {
+    open = true;
+    branch = "production";
+
+    nvidiaSettings = true;
+    modesetting.enable = true;
+    powerManagement.enable = true;
+
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      intelBusId = "PCI:0@0:2:0";
+      nvidiaBusId = "PCI:2@0:0:0";
+    };
+  };
+
 
 }
 // {

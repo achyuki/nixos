@@ -21,7 +21,7 @@
   "wallpaperCarousel": {
     "enabled": true,
     "carouselMode": "infinite",
-    "overlayOpacity": 10,
+    "overlayOpacity": 55,
     "borderWidth": 1,
     "itemWidth": 219,
     "itemHeight": 303,
