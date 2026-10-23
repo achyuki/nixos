@@ -15,6 +15,12 @@ window-rule {
     opacity 1.00
 }
 
+// @id=wr_1792757846926818176 @name=looking-glass-client
+window-rule {
+    match app-id="^looking-glass-client$"
+    opacity 1.00
+}
+
 // @id=dms-window-opaque @name=DMS Window Opaque
 window-rule {
     match app-id="^(dev\\.duxlabs\\.shell|com\\.danklinux\\.dms)$"
