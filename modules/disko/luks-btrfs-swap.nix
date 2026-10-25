@@ -50,6 +50,15 @@
                         "noatime"
                       ];
                     };
+                    "@tmp" = {
+                      mountpoint = "/tmp";
+                      mountOptions = [
+                        "compress=zstd:1"
+                        "noatime"
+                        "nosuid"
+                        "nodev"
+                      ];
+                    };
                     "@snapshots" = {
                       mountpoint = "/snapshots";
                       mountOptions = [

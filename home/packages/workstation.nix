@@ -2,8 +2,8 @@
 {
   home.packages = with pkgs; [
     gimp
-    #davinci-resolve
     #kdePackages.kdenlive
+    #davinci-resolve
     #inkscape
     #krita
     #blender

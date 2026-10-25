@@ -5,7 +5,9 @@
     "terminalApp": "kitty --hold"
   },
   "quickCapture": {
-    "enabled": true
+    "enabled": true,
+    "recordMic": false,
+    "includeCursor": false
   },
   "bongoCat": {
     "enabled": true,
@@ -23,8 +25,8 @@
     "carouselMode": "infinite",
     "overlayOpacity": 55,
     "borderWidth": 1,
-    "itemWidth": 219,
-    "itemHeight": 303,
+    "itemWidth": 220,
+    "itemHeight": 360,
     "expandSelected": "true",
     "enableHoldExpand": "false",
     "holdExpandRatio": 35,
@@ -39,5 +41,11 @@
   "nixPackageRunner": {
     "enabled": true,
     "runInTerminal": true
+  },
+  "screenCaptureToolbar": {
+    "enabled": false,
+    "mediaMode": "photo",
+    "isVideoMode": false,
+    "captureMode": "window"
   }
 }

@@ -908,7 +908,7 @@
           "all"
         ],
         "syncPositionAcrossScreens": true,
-        "mode": 1
+        "mode": 3
       }
     },
     {
@@ -1046,5 +1046,11 @@
     "restart",
     "hibernate"
   ],
-  "lockPamExternallyManaged": false
+  "lockPamExternallyManaged": false,
+  "lowerDisplayRefreshRateOnBattery": true,
+  "acProfileName": "2",
+  "batteryProfileName": "1",
+  "batteryAutoPowerSaver": false,
+  "muxType": "zellij",
+  "updaterIncludeFlatpak": false
 }

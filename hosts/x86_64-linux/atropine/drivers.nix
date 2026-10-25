@@ -14,7 +14,10 @@
     })
   ];
 
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [ ocl-icd config.boot.kernelPackages.nvidia_x11 ];
+};
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     open = true;
@@ -52,23 +55,22 @@
     "kvm.ignore_msrs=1"
   ];
   #options uniwill-laptop force=1
-  #
   boot.extraModprobeConfig = ''
-    options vfio-pci ids=10de:2d19,10de:22eb
     options kvmfr static_size_mb=64
+    options vfio-pci ids=10de:2d19,10de:22eb
   '';
   boot.initrd.kernelModules = [
     "vfio"
     "vfio_pci"
     "vfio_iommu_type1"
   ];
-  boot.blacklistedKernelModules = [
+  /*boot.blacklistedKernelModules = [
     "nvidia"
     "nvidia_drm"
     "nvidia_modeset"
     "nvidia_uvm"
     "nvidia_wmi_ec_backlight"
-  ];
+  ];*/
   boot.kernelModules = [ "kvmfr" ]; #uniwill-laptop
   boot.extraModulePackages = with config.boot.kernelPackages; [ kvmfr ];
   virtualisation.libvirtd.qemu.verbatimConfig = ''

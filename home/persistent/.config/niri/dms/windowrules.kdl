@@ -9,10 +9,24 @@ window-rule {
     }
 }
 
-// @id=wr_1792650326890351507 @name=.virt-manager-wrapped
+// @id=wr_1792935954252917416 @name=规则
 window-rule {
-    match app-id="^.virt-manager-wrapped$"
-    opacity 1.00
+    match is-floating=false
+    default-column-width { proportion 0.8; }
+}
+
+// @id=wr_1792936107939372501 @name=kitty
+window-rule {
+    match app-id="^kitty$"
+    default-column-width { proportion 0.5; }
+}
+
+// @id=wr_1792937959797475657 @name=Quick Capture
+window-rule {
+    match app-id="^dev.duxlabs.shell$" title="^Quick Capture$"
+    open-floating true
+    open-maximized true
+    default-column-width { proportion 0.99; }
 }
 
 // @id=wr_1792757846926818176 @name=looking-glass-client

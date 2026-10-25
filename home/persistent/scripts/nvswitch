@@ -48,16 +48,19 @@ kill_process() {
     fi
 }
 
-pci_unbind() {
+check_bind() {
     [ -e "$DEVICE/driver" ] || return 0
-    local cur
-    cur=$(basename "$(readlink -f "$DEVICE/driver")")
-    if [ "$cur" = "$DRIVER" ]; then
-        echo "- Device already bound to $DRIVER"
+    CURBIND=$(basename "$(readlink -f "$DEVICE/driver")")
+    if [ "$CURBIND" = "$DRIVER" ]; then
+        echo "- Device already bound to $CURBIND"
         exit 0
     fi
-    echo "- Unbinding $BDF from $cur ..."
-    echo "$BDF" > "/sys/bus/pci/drivers/$cur/unbind"
+}
+
+pci_unbind() {
+    check_bind
+    echo "- Unbinding $BDF from $CURBIND ..."
+    echo "$BDF" > "/sys/bus/pci/drivers/$CURBIND/unbind"
 }
 
 load_driver() {
@@ -68,6 +71,7 @@ load_driver() {
 }
 
 pci_bind() {
+    check_bind
     echo "- Rebinding $BDF to $DRIVER ..."
     echo "$DRIVER" > "$DEVICE/driver_override"
     echo "$BDF" > "/sys/bus/pci/drivers/$DRIVER/bind"
@@ -75,8 +79,8 @@ pci_bind() {
 }
 
 rebind() {
-    load_driver
     pci_unbind
+    load_driver
     pci_bind
     echo "- Rebinding done"
 }
