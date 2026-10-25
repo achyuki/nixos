@@ -2,7 +2,7 @@
   description = "AcetylYuki's NixOS Configurations!";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/master";# TODO
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     flake-utils.url = "github:numtide/flake-utils";
     #nixos-hardware.url = "github:nixos/nixos-hardware";

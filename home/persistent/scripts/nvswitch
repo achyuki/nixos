@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+    echo "Usage: $0 <-v|-n> <PCI_BDF>"
+    echo "  -v   terminate all sessions, rebind device to vfio-pci"
+    echo "  -n   rebind device to nvidia driver"
+    exit 1
+}
+
+[ $# -eq 2 ] || usage
+
+case "$1" in
+    -v) DRIVER=vfio-pci ;;
+    -n) DRIVER=nvidia ;;
+    *)  usage ;;
+esac
+
+BDF="$2"
+[[ "$BDF" =~ ^[0-9a-fA-F]{4}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\.[0-7]$ ]] \
+    || { echo "- Invalid PCI BDF: $BDF" >&2; exit 1; }
+
+if [ "$EUID" -ne 0 ]; then
+    echo "- Switch to root ..."
+    exec sudo "$(readlink -f "$0")" "$@"
+fi
+
+
+DEVICE="/sys/bus/pci/devices/$BDF"
+[ -e "$DEVICE" ] || { echo "- Device $BDF not found" >&2; exit 1; }
+
+kill_process() {
+    local pids
+    mapfile -t pids < <(lsof -t /dev/nvidia* 2>/dev/null || true)
+    if [ ${#pids[@]} -eq 0 ]; then
+        return 0
+    fi
+
+    echo "- Killing processes: ${pids[*]}"
+    kill "${pids[@]}" 2>/dev/null || true
+    sleep 2
+
+    mapfile -t pids < <(lsof -t /dev/nvidia* 2>/dev/null || true)
+    if [ ${#pids[@]} -gt 0 ]; then
+        echo "- Force killing: ${pids[*]}"
+        kill -9 "${pids[@]}" 2>/dev/null || true
+        sleep 1
+    fi
+}
+
+pci_unbind() {
+    [ -e "$DEVICE/driver" ] || return 0
+    local cur
+    cur=$(basename "$(readlink -f "$DEVICE/driver")")
+    if [ "$cur" = "$DRIVER" ]; then
+        echo "- Device already bound to $DRIVER"
+        exit 0
+    fi
+    echo "- Unbinding $BDF from $cur ..."
+    echo "$BDF" > "/sys/bus/pci/drivers/$cur/unbind"
+}
+
+load_driver() {
+    if [ ! -d "/sys/bus/pci/drivers/$DRIVER" ]; then
+        echo "- Loading driver $DRIVER ..."
+        modprobe "$DRIVER"
+    fi
+}
+
+pci_bind() {
+    echo "- Rebinding $BDF to $DRIVER ..."
+    echo "$DRIVER" > "$DEVICE/driver_override"
+    echo "$BDF" > "/sys/bus/pci/drivers/$DRIVER/bind"
+    #echo > "$DEVICE/driver_override"
+}
+
+rebind() {
+    load_driver
+    pci_unbind
+    pci_bind
+    echo "- Rebinding done"
+}
+
+if [ "$DRIVER" = vfio-pci ]; then
+    trap '' HUP TERM
+    echo "- Stopping display-manager ..."
+    systemctl stop display-manager
+    trap 'echo "- Restarting display-manager ..."; systemctl start display-manager' EXIT
+    kill_process
+    rebind
+else
+    rebind
+fi

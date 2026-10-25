@@ -1,7 +1,10 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    
+
+  ];
+  home.sessionPath = [
+    "$HOME/scripts"
   ];
   pref.persistent = [
     "Pictures/wallpaper"
@@ -14,5 +17,6 @@
     ".config/kdeglobals"
     ".config/fcitx5"
     ".config/kitty"
+    "scripts"
   ];
 }

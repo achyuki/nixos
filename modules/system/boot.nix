@@ -1,7 +1,12 @@
 _: {
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.configurationLimit = 10;
-
+  boot.loader={
+    systemd-boot={
+      enable = true;
+      configurationLimit = 10;
+    };
+    efi.canTouchEfiVariables = true;
+    timeout = 0; # Hold down space to enter the boot menu
+  };
+  boot.tmp.cleanOnBoot = true;
   boot.supportedFilesystems = [ "btrfs" "exfat" "ntfs" ];
 }
