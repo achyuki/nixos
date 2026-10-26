@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-
+    localPkgs.looking-glass-client-git
   ];
   home.sessionPath = [
     "$HOME/scripts"
