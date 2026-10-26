@@ -25,4 +25,9 @@
     };
   };
   #stylix.targets.fcitx5.enable = true;
+
+  home.packages = with pkgs; [
+    wl-clipboard
+    wl-clip-persist
+  ];
 }
