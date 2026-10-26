@@ -3,7 +3,7 @@
 
 // @id=wr_1792586399230003639 @name=规则
 window-rule {
-    opacity 0.85
+    opacity 0.87
     background-effect {
         blur true
     }

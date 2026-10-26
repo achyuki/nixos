@@ -113,7 +113,7 @@
           Macos = "󰀵";
           Manjaro = "";
           Mint = "󰣭";
-          NixOS = "󱄅";
+          NixOS = "";
           Raspbian = "󰐿";
           RedHatEnterprise = "󱄛";
           Redhat = "󱄛";
@@ -181,6 +181,96 @@
       package = {
         disabled = true;
       };
+    };
+  };
+
+  programs.fastfetch = {
+    enable = true;
+    settings = {
+      display = {
+        separator = " ";
+      };
+
+      modules = [
+        "break"
+        {
+          type = "host";
+          key = "HW 󰌢 ";
+          keyColor = "#FFB4AB";
+        }
+        {
+          type = "cpu";
+          key = "│ ├ ";
+          keyColor = "#FFB4AB";
+        }
+        {
+          type = "gpu";
+          key = "│ ├󰍹 ";
+          keyColor = "#FFB4AB";
+        }
+        {
+          type = "memory";
+          key = "│ ├ ";
+          keyColor = "#FFB4AB";
+        }
+        {
+          type = "disk";
+          key = "└ └󰋊 ";
+          keyColor = "#FFB4AB";
+        }
+        "break"
+        {
+          type = "os";
+          key = "SW  ";
+          keyColor = "#BFC6DC";
+        }
+        {
+          type = "kernel";
+          key = "│ ├󰌽 ";
+          keyColor = "#BFC6DC";
+        }
+        {
+          type = "packages";
+          key = "│ ├󰏗 ";
+          keyColor = "#BFC6DC";
+        }
+        {
+          type = "uptime";
+          key = "│ ├ ";
+          keyColor = "#BFC6DC";
+        }
+        {
+          type = "shell";
+          key = "│ ├󰞷 ";
+          keyColor = "#BFC6DC";
+        }
+        {
+          type = "wm";
+          key = "│ ├󱂬 ";
+          keyColor = "#C0CBAC";
+        }
+        {
+          type = "wmtheme";
+          key = "│ ├󰉦 ";
+          keyColor = "#C0CBAC";
+        }
+        {
+          type = "font";
+          key = "│ ├ ";
+          keyColor = "#C0CBAC";
+        }
+        {
+          type = "terminal";
+          key = "└ └󰆍 ";
+          keyColor = "#C0CBAC";
+        }
+        "break"
+        {
+          type = "colors";
+          paddingLeft = 18;
+          symbol = "circle";
+        }
+      ];
     };
   };
 }

@@ -1,4 +1,4 @@
-_: {
+{ lib, ... }: {
   security.polkit = {
     enable = true;
     # https://discourse.nixos.org/t/breaking-changes-announcement-for-unstable/17574/139
@@ -13,4 +13,6 @@ _: {
   };
 
   security.soteria.enable = true;
+  services.gnome.gnome-keyring.enable = true;
+  services.gnome.gcr-ssh-agent.enable = lib.mkForce false;
 }

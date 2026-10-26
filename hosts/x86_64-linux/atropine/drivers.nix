@@ -14,10 +14,7 @@
     })
   ];
 
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [ ocl-icd config.boot.kernelPackages.nvidia_x11 ];
-};
+  hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     open = true;
