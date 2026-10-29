@@ -522,7 +522,7 @@
         },
         {
           "id": "dockerManager",
-          "enabled": true
+          "enabled": false
         },
         {
           "id": "dankKDEConnect",
@@ -1252,5 +1252,8 @@
   "connectedFrameBarStyleBackups": {},
   "frameEnabled": false,
   "widgetColorMode": "default",
-  "customPowerActionHibernate": ""
+  "customPowerActionHibernate": "",
+  "clipboardClickToPaste": true,
+  "clipboardEnterToPaste": true,
+  "clipboardSize": "compact"
 }

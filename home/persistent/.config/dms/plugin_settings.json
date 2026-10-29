@@ -1,13 +1,18 @@
 {
   "dockerManager": {
-    "enabled": true,
+    "enabled": false,
     "dockerBinary": "podman",
     "terminalApp": "kitty --hold"
   },
   "quickCapture": {
     "enabled": true,
     "recordMic": false,
-    "includeCursor": false
+    "includeCursor": false,
+    "modalDisplayMode": "modal",
+    "showToolbarBorder": false,
+    "modalAspectRatio": "landscape",
+    "modalScaleToContent": false,
+    "transparentBg": true
   },
   "bongoCat": {
     "enabled": true,
