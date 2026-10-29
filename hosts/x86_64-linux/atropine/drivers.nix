@@ -62,7 +62,12 @@ in
     })
   ];
 
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+    ];
+  };
   # TODO
   /*services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {

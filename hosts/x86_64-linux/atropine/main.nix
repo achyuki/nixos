@@ -39,7 +39,7 @@ in
         niri-dms
 
         # Packages
-        obs-studio localconn chrome #firefox
+        obs-studio localconn remmina chrome #firefox
         devenv develop obsidian splayer clash
         workstation libreoffice
         steam wine
