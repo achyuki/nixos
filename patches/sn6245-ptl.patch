@@ -1,0 +1,123 @@
+diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c b/sound/soc/codecs/sn624x-sdca-sdw.c
+index c9e6904..8f9d7f3 100644
+--- a/sound/soc/codecs/sn624x-sdca-sdw.c
++++ b/sound/soc/codecs/sn624x-sdca-sdw.c
+@@ -1771,6 +1771,7 @@ static void sn624x_sdca_sdw_remove(struct sdw_slave *slave)
+ static const struct sdw_device_id sn624x_sdca_id[] = {
+ 	SDW_SLAVE_ENTRY_EXT(0x0496, 0x6242, 0x3, 0x1, 0),
+ 	SDW_SLAVE_ENTRY_EXT(0x0496, 0x6244, 0x3, 0x1, 0),
++	SDW_SLAVE_ENTRY_EXT(0x0496, 0x6245, 0x3, 0x1, 0),
+ 	SDW_SLAVE_ENTRY_EXT(0x0496, 0x6247, 0x3, 0x1, 0),
+ 	{ }
+ };
+diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+index 0ce51c4..467709d 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+@@ -495,10 +495,12 @@ static const struct snd_soc_acpi_link_adr _sym[] = {			\
+ 
+ SN624X_PTL_SINGLE_ADR(sn6242_single_adr, 0x0003300496624201ull);
+ SN624X_PTL_SINGLE_ADR(sn6244_single_adr, 0x0003300496624401ull);
++SN624X_PTL_SINGLE_ADR(sn6245_single_adr, 0x0003300496624501ull);
+ SN624X_PTL_SINGLE_ADR(sn6247_single_adr, 0x0003300496624701ull);
+ 
+ SN624X_PTL_LINK(ptl_link_sn6242, sn6242_single_adr);
+ SN624X_PTL_LINK(ptl_link_sn6244, sn6244_single_adr);
++SN624X_PTL_LINK(ptl_link_sn6245, sn6245_single_adr);
+ SN624X_PTL_LINK(ptl_link_sn6247, sn6247_single_adr);
+ 
+ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+@@ -599,21 +601,28 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ 		.link_mask = BIT(3),
+ 		.links = ptl_link_sn6242,
+ 		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
++		.sof_tplg_filename = "sof-sdw-generic.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(3),
+ 		.links = ptl_link_sn6244,
+ 		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
++		.sof_tplg_filename = "sof-sdw-generic.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
++	{
++		.link_mask = BIT(3),
++		.links = ptl_link_sn6245,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-sdw-generic.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{
+ 		.link_mask = BIT(3),
+ 		.links = ptl_link_sn6247,
+ 		.drv_name = "sof_sdw",
+-		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
++		.sof_tplg_filename = "sof-sdw-generic.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
+ 	{},
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index 7a19de7..c00038a 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -1546,6 +1546,57 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 		},
+ 		.dai_num = 3,
+ 	},
++	{
++		.vendor_id = 0x0496,
++		.part_id = 0x6245,
++		.name_prefix = "sn624x",
++		.ignore_internal_dmic = true,
++		.dais = {
++			{
++				.direction = {true, true},
++				.dai_name = "sn624x-sdca-aif",
++				.dai_type = SOC_SDW_DAI_TYPE_JACK,
++				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
++				.init = asoc_sdw_senary_sdca_jack_init,
++				.exit = asoc_sdw_senary_sdca_jack_exit,
++				.rtd_init = asoc_sdw_senary_sdca_jack_rtd_init,
++				.controls = generic_jack_controls,
++				.num_controls = ARRAY_SIZE(generic_jack_controls),
++				.widgets = generic_jack_widgets,
++				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
++			},
++			{
++				.direction = {true, false},
++				.dai_name = "sn624x-sdca-aif2",
++				.component_name = "sn624x",
++				.dai_type = SOC_SDW_DAI_TYPE_AMP,
++				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
++				.init = asoc_sdw_senary_amp_init,
++				.exit = asoc_sdw_senary_amp_exit,
++				.rtd_init = asoc_sdw_senary_sdca_spk_rtd_init,
++				.controls = generic_spk_controls,
++				.num_controls = ARRAY_SIZE(generic_spk_controls),
++				.widgets = generic_spk_widgets,
++				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
++				.quirk = SOC_SDW_CODEC_SPKR,
++				.quirk_exclude = true,
++			},
++			{
++				.direction = {false, true},
++				.dai_name = "sn624x-sdca-aif3",
++				.dai_type = SOC_SDW_DAI_TYPE_MIC,
++				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
++				.rtd_init = asoc_sdw_senary_dmic_rtd_init,
++				.widgets = sn624x_dmic_widgets,
++				.num_widgets = ARRAY_SIZE(sn624x_dmic_widgets),
++				.controls = sn624x_dmic_controls,
++				.num_controls = ARRAY_SIZE(sn624x_dmic_controls),
++				.quirk = SOC_SDW_CODEC_MIC,
++				.quirk_exclude = true,
++			},
++		},
++		.dai_num = 3,
++	},
+ 	{
+ 		.vendor_id = 0x0496,
+ 		.part_id = 0x6247,

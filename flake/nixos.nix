@@ -17,5 +17,5 @@ lib.concatMapAttrs (
       modules = with modules.nixosModules; (_global ++ [ base path ]);
       specialArgs = { inherit inputs util modules; };
     }
-  ) "${configPath}/${platform}"
+  ) (configPath + "/${platform}")
 ) (builtins.readDir configPath)

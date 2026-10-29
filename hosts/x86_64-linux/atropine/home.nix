@@ -2,6 +2,7 @@
 {
   home.packages = with pkgs; [
     localPkgs.looking-glass-client-git
+    wf-recorder
   ];
   home.sessionPath = [
     "$HOME/scripts"

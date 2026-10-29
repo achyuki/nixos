@@ -26,6 +26,7 @@
         #GTK_IM_MODULE = "fcitx";
         QT_IM_MODULE = "fcitx";
         QT_QPA_PLATFORMTHEME = "qt6ct";
+        LANG = "zh_CN.UTF-8";
         LC_MESSAGES = "zh_CN.UTF-8";
       };
       binds = {

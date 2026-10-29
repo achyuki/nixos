@@ -1,0 +1,171 @@
+From 34e9f1c0a495ed45ed1216ee81ae10088da98be6 Mon Sep 17 00:00:00 2001
+From: Qianghua Wang <qianghua.wang@senarytech.com>
+Date: Tue, 13 Oct 2026 09:38:00 +0800
+Subject: [PATCH] ucm2: sof-soundwire: add Senary SN624x SDCA support
+
+Add UCM device configs for CardComponents:
+  hs:sn624x-sdca spk:sn624x mic:sn624x-dmic
+
+Register sn624x in MultiCodec and keep Speaker, Headphones,
+Microphones and Dmic in a single sn624x.conf. Headphones and Speaker
+stay mutually exclusive. Leave Speaker Switch to the playback path so
+a jack handoff does not re-arm the speaker amp. The Dmic device relies
+on PCM 4 alone, since the "Dmic Switch" pin control aborts disdevall.
+
+Existing sn6242* profiles do not match these component names.
+
+Tested on Intel PTL/WCL with sof-soundwire and SN624x SDCA driver
+(merged in ASoC for-7.4).
+
+Signed-off-by: Qianghua Wang <qianghua.wang@senarytech.com>
+---
+ ucm2/codecs/sn624x/init.conf          |   4 +
+ ucm2/sof-soundwire/sn624x.conf        | 103 ++++++++++++++++++++++++++
+ ucm2/sof-soundwire/sof-soundwire.conf |   3 +-
+ 3 files changed, 109 insertions(+), 1 deletion(-)
+ create mode 100644 ucm2/codecs/sn624x/init.conf
+ create mode 100644 ucm2/sof-soundwire/sn624x.conf
+
+diff --git a/ucm2/codecs/sn624x/init.conf b/ucm2/codecs/sn624x/init.conf
+new file mode 100644
+index 0000000..276807d
+--- /dev/null
++++ b/ucm2/codecs/sn624x/init.conf
+@@ -0,0 +1,4 @@
++# sn624x specific control settings
++#
++# Senary SN624x is an SDCA codec providing the headset (UAJ),
++# speaker and internal DMIC functions on a single SoundWire device.
+diff --git a/ucm2/sof-soundwire/sn624x.conf b/ucm2/sof-soundwire/sn624x.conf
+new file mode 100644
+index 0000000..8ebc893
+--- /dev/null
++++ b/ucm2/sof-soundwire/sn624x.conf
+@@ -0,0 +1,103 @@
++# Use case Configuration for sof-soundwire card
++
++If.codec_spk {
++	Condition {
++		Type RegexMatch
++		# guard with '=' to avoid empty string matching
++		Regex "=(sn624x(-sdca)?)="
++		String "=${var:SpeakerCodec1}="
++	}
++	True {
++		SectionDevice."Speaker" {
++			Comment "Speaker built-in"
++
++			# Keep Speakers/Headphones exclusive so jack plug/unplug rebuilds
++			# the active playback device (fresh hw_params after SoftAmp handoff).
++			ConflictingDevice [
++				"Headphones"
++			]
++
++			Value {
++				PlaybackPriority 2000
++				PlaybackPCM "hw:${CardId},2"
++				PlaybackMixerElem "Speaker"
++			}
++		}
++	}
++}
++
++If.codec_hs {
++	Condition {
++		Type RegexMatch
++		# guard with '=' to avoid empty string matching
++		Regex "=(sn624x(-sdca)?)="
++		String "=${var:HeadsetCodec1}="
++	}
++	True {
++		SectionDevice."Headphones" {
++			Comment "Headset"
++
++			ConflictingDevice [
++				"Speaker"
++			]
++
++			EnableSequence [
++				cset "name='Headphone Switch' on"
++			]
++
++			DisableSequence [
++				cset "name='Headphone Switch' off"
++			]
++
++			Value {
++				PlaybackPriority 2200
++				PlaybackPCM "hw:${CardId},0"
++				JackControl "Headphone Jack"
++				PlaybackMixerElem "Headphone"
++			}
++		}
++
++		SectionDevice."Microphones" {
++			Comment "Headset Microphone"
++
++			EnableSequence [
++				cset "name='Headset Mic Switch' on"
++			]
++
++			DisableSequence [
++				cset "name='Headset Mic Switch' off"
++			]
++
++			Value {
++				CapturePriority 2200
++				CapturePCM "hw:${CardId},1"
++				JackControl "Headset Mic Jack"
++				CaptureMixerElem "Headset Mic"
++			}
++		}
++	}
++}
++
++If.codec_mic {
++	Condition {
++		Type RegexMatch
++		# guard with '=' so sn624x-sdca does not match the DMIC tag
++		Regex "=(sn624x(-dmic)?)="
++		String "=${var:MicCodec1}="
++	}
++	True {
++		SectionDevice."Dmic" {
++			Comment "Microphone built-in"
++
++			# Pin switch is registered as "Dmic" while the widget is "DMIC".
++			# cset "name='Dmic Switch'" returns EINVAL (DAPM unknown pin) and
++			# aborts disdevall, so the HiFi verb never comes up. Capture on
++			# PCM 4 does not need this control.
++
++			Value {
++				CapturePriority 2000
++				CapturePCM "hw:${CardId},4"
++			}
++		}
++	}
++}
+diff --git a/ucm2/sof-soundwire/sof-soundwire.conf b/ucm2/sof-soundwire/sof-soundwire.conf
+index 3ccf493..1745a49 100644
+--- a/ucm2/sof-soundwire/sof-soundwire.conf
++++ b/ucm2/sof-soundwire/sof-soundwire.conf
+@@ -18,7 +18,7 @@ Define {
+ 	Mics1 "0"
+ 	Iec61937Pcms1 ""
+ 	MultiCodec1 ""
+-	MultiCodecRegex "rt712|rt713|rt721|rt722|rt1320"
++	MultiCodecRegex "rt712|rt713|rt721|rt722|rt1320|sn624x"
+ }
+ 
+ DefineRegex {
+@@ -123,6 +123,7 @@ If.multi_init {
+ 		Macro.rt721.MultiCodecInit "CodecId=rt721"
+ 		Macro.rt722.MultiCodecInit "CodecId=rt722"
+ 		Macro.rt1320.MultiCodecInit "CodecId=rt1320"
++		Macro.sn624x.MultiCodecInit "CodecId=sn624x"
+ 	}
+ }
+ 
+-- 
+2.56.0
+

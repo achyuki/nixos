@@ -16,13 +16,13 @@ in
       # Base
       boot kernel network zram binfmt
       dms-greeter #greetd
-      tailscale dae
+      tailscale #dae
 
       # Desktop
       audio bluetooth fonts polkit dbus udev
 
       # Packages
-      fhs nix-ld direnv fuse nvim
+      fhs nix-ld direnv fuse nvim ccache
       podman distrobox libvirt
       extpkgs wireshark
 

@@ -1251,5 +1251,6 @@
   "updaterIncludeFlatpak": false,
   "connectedFrameBarStyleBackups": {},
   "frameEnabled": false,
-  "widgetColorMode": "default"
+  "widgetColorMode": "default",
+  "customPowerActionHibernate": ""
 }

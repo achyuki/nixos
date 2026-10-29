@@ -10,6 +10,7 @@
     };
     interactiveShellInit = ''
       fish_config theme choose "Rosé Pine"
+      set -gx LANG en_US.UTF-8
       set -gx LC_MESSAGES en_US.UTF-8
       #set -gx GPG_TTY $(tty)
       set -gx NIXPKGS_ALLOW_UNFREE 1
