@@ -1,10 +1,12 @@
 return
 {
-  "saghen/blink.cmp",
-  opts = {
-    keymap = {
-      ["<C-y>"] = false,
-    },
+  {
+    "saghen/blink.cmp",
+    opts = {
+      keymap = {
+        ["<C-y>"] = false,
+      }
+    }
   },
   {
     "folke/snacks.nvim",
@@ -14,9 +16,9 @@ return
           explorer = {
             hidden = true,
             ignored = true,
-          },
-        },
-      },
-    },
-  },
+          }
+        }
+      }
+    }
+  }
 }
