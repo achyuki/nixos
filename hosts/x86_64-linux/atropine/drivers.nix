@@ -1,18 +1,20 @@
 { config, pkgs, lib, ... }:
 let
   kernel = pkgs.buildLinux {
-    src = pkgs.fetchFromGitHub {
-      owner = "torvalds";
-      repo = "linux";
-      rev = "d135ab453a7400a34930bdda1ef4bdc8acfac80e";
-      hash = "sha256-rK+BaJJbaAXLqzH4GgQPkFN1gq3O6wtxKMxMXzw1Rig=";
-    };
+    src = pkgs.fetchzip {
+        url = "https://github.com/torvalds/linux/archive/refs/tags/v7.4-rc1.tar.gz";
+        hash = "sha256-OkOggNsjb5JSC5DW2i6Icauj+j4enfwBUjrms9LCVBY=";
+      };
     kernelPatches = with pkgs.kernelPatches; [
       bridge_stp_helper
       request_key_helper
       {
         name = "sn6245-ptl";
         patch = ../../../patches/sn6245-ptl.patch;
+      }
+      {
+        name = "sn624x-soundwire-status";
+        patch = ../../../patches/sn624x-soundwire-status.patch;
       }
       {
         name = "uniwill-platform-profile";
@@ -36,8 +38,8 @@ let
         export CCACHE_SLOPPINESS=random_seed
       '';
     };*/
-    version = "7.3";
-    modDirVersion = "7.3.0";
+    version = "7.4-rc1";
+    modDirVersion = "7.4.0-rc1";
     ignoreConfigErrors = true;
   };
 
@@ -136,9 +138,7 @@ in
     ]
   '';
 
-  # TODO
   boot.kernelPackages = lib.mkForce (pkgs.linuxPackagesFor kernel);
-
   environment.sessionVariables = {
     ALSA_CONFIG_UCM2 = "${alsa-ucm-conf-patched}/share/alsa/ucm2";
   };

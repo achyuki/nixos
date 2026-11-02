@@ -1,0 +1,67 @@
+diff --git a/drivers/soundwire/cadence_master.c b/drivers/soundwire/cadence_master.c
+index a0a63b7..ab81b10 100644
+--- a/drivers/soundwire/cadence_master.c
++++ b/drivers/soundwire/cadence_master.c
+@@ -197,6 +197,14 @@ MODULE_PARM_DESC(cdns_mcp_int_mask, "Cadence MCP IntMask");
+ /* Driver defaults */
+ #define CDNS_TX_TIMEOUT				500
+ 
++/*
++ * Delay before re-reading the PING status after a Slave status change.
++ * A change that occurs while the Slave interrupt is masked in
++ * cdns_update_slave_status_work() can otherwise be lost, leaving a
++ * present Slave reported as UNATTACHED.
++ */
++#define CDNS_STATUS_RECHECK_MS			100
++
+ #define CDNS_SCP_RX_FIFOLEVEL			0x2
+ 
+ /*
+@@ -1012,6 +1020,10 @@ static void cdns_check_attached_status_dwork(struct work_struct *work)
+ 	int ret;
+ 	int i;
+ 
++	/* Do not touch the link while it is being stopped or suspended */
++	if (!cdns->interrupt_enabled)
++		return;
++
+ 	val = cdns_readl(cdns, CDNS_MCP_SLAVE_STAT);
+ 
+ 	for (i = 0; i <= SDW_MAX_DEVICES; i++) {
+@@ -1110,6 +1122,16 @@ update_status:
+ 	cdns_updatel(cdns, CDNS_MCP_INTMASK,
+ 		     CDNS_MCP_INT_SLAVE_MASK, CDNS_MCP_INT_SLAVE_MASK);
+ 
++	/*
++	 * The status of an enumerated Slave can change while the Slave
++	 * interrupt is masked above and be missed entirely; the PING
++	 * re-check above only covers device 0. Re-read the PING status
++	 * once more and reconcile it with the bus core, so a Slave that
++	 * is still present cannot remain reported as UNATTACHED.
++	 */
++	if (cdns->interrupt_enabled)
++		schedule_delayed_work(&cdns->attach_dwork,
++				      msecs_to_jiffies(CDNS_STATUS_RECHECK_MS));
+ }
+ 
+ /* paranoia check to make sure self-cleared bits are indeed cleared */
+diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c b/sound/soc/codecs/sn624x-sdca-sdw.c
+index c9e6904..05d4a72 100644
+--- a/sound/soc/codecs/sn624x-sdca-sdw.c
++++ b/sound/soc/codecs/sn624x-sdca-sdw.c
+@@ -1748,7 +1748,14 @@ static int sn624x_sdca_sdw_probe(struct sdw_slave *slave,
+ 	else {
+ 		struct sn624x_sdca_priv *sn624x = dev_get_drvdata(&slave->dev);
+ 
+-		if (sn624x)
++		/*
++		 * Only mask SDCA interrupts when the Slave is already
++		 * enumerated. Before ATTACHED its registers are not
++		 * accessible: the write lands on device 0, times out and
++		 * drains the master RX FIFO while enumeration is in flight.
++		 * io_init() masks them again before first use.
++		 */
++		if (sn624x && slave->status == SDW_SLAVE_ATTACHED)
+ 			sn624x_sdca_sdca_irq_mask_all(sn624x);
+ 		SN624X_DBG(&slave->dev, "SoundWire probe finished OK\n");
+ 	}
