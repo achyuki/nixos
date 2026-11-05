@@ -16,7 +16,7 @@ in
       # Base
       boot kernel network zram binfmt
       dms-greeter #greetd
-      tailscale #dae
+      tailscale dae
 
       # Desktop
       audio bluetooth fonts polkit dbus udev

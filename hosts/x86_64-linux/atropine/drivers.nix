@@ -29,6 +29,13 @@ let
           UNIWILL_LAPTOP = module;
         };
       }
+      {
+        name = "dae-workround";
+        patch = null;
+        structuredExtraConfig = with pkgs.lib.kernel; {
+          DEBUG_INFO_BTF_INLINE = no;
+        };
+      }
     ];
     # TODO: ccache miss
     /*stdenv = pkgs.ccacheStdenv.override {
