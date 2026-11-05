@@ -35,6 +35,19 @@ in
     nix-autogc = true;
     ssh-strict = true;
   };
+
+  nixpkgs.overlays = [
+    (final: prev: {
+      shadow = prev.shadow.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          substituteInPlace src/su.c \
+            --replace-fail 'if (!doshell || need_pty_prot) {' \
+                           'if (!doshell || (need_pty_prot && !isatty (STDIN_FILENO))) {'
+        '';
+      });
+    })
+  ];
+
 }
 // {
   nixpkgs.hostPlatform = "aarch64-linux";
