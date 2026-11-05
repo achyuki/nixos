@@ -21,9 +21,10 @@ in
     enable = true;
     modules =
       with modules.homeModules;
+      with desktop;
       with packages;
       [
-        component.shell
+        components.shell
 
         ./home.nix
       ];
