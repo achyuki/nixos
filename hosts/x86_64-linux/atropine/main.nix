@@ -22,7 +22,7 @@ in
       audio bluetooth fonts polkit dbus udev
 
       # Packages
-      fhs nix-ld direnv fuse nvim ccache
+      fhs nix-ld direnv comma fuse nvim ccache
       podman distrobox libvirt
       extpkgs wireshark
 

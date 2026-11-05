@@ -69,6 +69,7 @@ in
         ${config.systemd.package}/bin/udevadm verify --resolve-names=late $out/etc/udev/rules.d/70-rules-custom.rules
       '';
     })
+    pkgs.localPkgs.uu-remote-linux
   ];
 
   hardware.graphics = {

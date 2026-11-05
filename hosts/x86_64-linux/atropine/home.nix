@@ -2,8 +2,9 @@
 {
   home.packages = with pkgs; [
     localPkgs.looking-glass-client-git
+    localPkgs.uu-remote-linux
     gpu-screen-recorder
-    wayvnc
+
   ];
   home.sessionPath = [
     "$HOME/scripts"
