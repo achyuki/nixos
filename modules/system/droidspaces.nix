@@ -114,13 +114,13 @@ in
   };
 
   # Journald configuration (skip Audit, KMsg, etc)
-  services.journald.extraConfig = ''
-    ReadKMsg=no
-    Audit=no
-    Storage=volatile
-    SystemMaxUse=50M
-    RuntimeMaxUse=10M
-    MaxRetentionSec=7day
-    MaxLevelStore=info
-  '';
+  services.journald.settings.Journal = {
+    ReadKMsg="no";
+    Audit="no";
+    Storage="volatile";
+    SystemMaxUse="50M";
+    RuntimeMaxUse="10M";
+    MaxRetentionSec="7day";
+    MaxLevelStore="info";
+  };
 }
