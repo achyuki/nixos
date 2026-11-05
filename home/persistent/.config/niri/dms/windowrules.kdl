@@ -1,4 +1,4 @@
-// DMS Window Rules - Managed by Dux Shell
+// DMS Window Rules - Managed by Dux Modular Shell
 // Do not edit manually - changes may be overwritten
 
 // @id=wr_1792586399230003639 @name=规则
@@ -12,7 +12,7 @@ window-rule {
 // @id=wr_1792935954252917416 @name=规则
 window-rule {
     match is-floating=false
-    default-column-width { proportion 0.8; }
+    default-column-width { proportion 0.85; }
 }
 
 // @id=wr_1792936107939372501 @name=kitty

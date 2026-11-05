@@ -19,6 +19,7 @@
       "showOnLastDisplay": true,
       "position": 3,
       "mode": "compact",
+      "middleClickAction": "close",
       "taskbarAlign": "center",
       "widgetExpansion": "popout",
       "iconSize": 40,
@@ -1000,7 +1001,8 @@
       "batteryColorMode": "theme",
       "widgetFollowInterfaceStyle": false,
       "hideOnLastDisplay": false,
-      "dot": false
+      "dot": false,
+      "island": false
     }
   ],
   "desktopWidgetInstances": [

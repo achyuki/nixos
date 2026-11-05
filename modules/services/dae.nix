@@ -36,7 +36,8 @@ _:
       }
       routing {
         pname(clash, clash-meta, clash-verge, flclash, mihomo, verge-mihomo, sing-box) -> must_direct
-        pname(tailscale, tailscaled) -> must_direct
+        # FK Campus Network
+        #pname(tailscale, tailscaled) -> must_direct
         pname(wechat, WeChatAppEx) -> must_direct
         pname(qq) -> must_direct
 
