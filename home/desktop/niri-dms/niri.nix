@@ -21,10 +21,11 @@
       };
       environment = {
         DISPLAY = ":0";
-        # https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland
         XMODIFIERS = "@im=fcitx";
+        # https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland
         #GTK_IM_MODULE = "fcitx";
-        QT_IM_MODULE = "fcitx";
+        # use text-input-v3
+        #QT_IM_MODULE = "fcitx";
         QT_QPA_PLATFORMTHEME = "qt6ct";
         LANG = "zh_CN.UTF-8";
         LC_MESSAGES = "zh_CN.UTF-8";
