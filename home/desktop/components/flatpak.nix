@@ -20,11 +20,11 @@
     packages = [
       "com.github.tchx84.Flatseal"
     ];
-    overrides = {
-        global.Context = {
-          filesystems = [ "xdg-download" ];
-        };
+    overrides.settings = {
+      global.Context = {
+        filesystems = [ "xdg-download" ];
       };
+    };
   };
   
 }

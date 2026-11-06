@@ -1257,5 +1257,6 @@
   "customPowerActionHibernate": "",
   "clipboardClickToPaste": true,
   "clipboardEnterToPaste": true,
-  "clipboardSize": "compact"
+  "clipboardSize": "compact",
+  "lockBeforeSuspend": false
 }

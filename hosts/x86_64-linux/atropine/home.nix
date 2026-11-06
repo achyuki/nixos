@@ -23,6 +23,18 @@
     ".config/kdeglobals"
     ".config/fcitx5"
     ".config/kitty"
-    "scripts"
+    ".local/bin/nvswitch"
   ];
+  home.file = builtins.listToAttrs (map (n: {
+    name = ".local/bin/${n}";
+    value = {
+      executable = true;
+      text = ''
+        #!/usr/bin/env bash
+        export QT_IM_MODULE=fcitx
+        exec /home/yuki/.nix-profile/bin/${n} "$@"
+     '';
+    };
+  }) [ "wps" "et" "wpp" "wpspdf" ]);
+
 }

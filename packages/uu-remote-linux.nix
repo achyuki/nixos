@@ -25,7 +25,7 @@
 
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "uu-remote-linux";
-  version = "0.2.50";
+  version = "0.2.53";
 
   src = fetchFromGitHub {
     owner = "VallierDev";

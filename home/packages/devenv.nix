@@ -13,6 +13,7 @@
     sessionPath = [
       "$HOME/.local/bin"
       "$HOME/.npm/bin"
+      "$HOME/.local/share/pnpm/bin"
     ];
     file = {
       ".npmrc".text = ''

@@ -4,15 +4,16 @@
 // @id=wr_1792586399230003639 @name=规则
 window-rule {
     opacity 0.85
+    default-column-width { proportion 0.85; }
     background-effect {
         blur true
     }
 }
 
-// @id=wr_1792935954252917416 @name=规则
+// @id=dms-floating-windows @name=DMS Floating Windows
 window-rule {
-    match is-floating=false
-    default-column-width { proportion 0.85; }
+    match app-id="^(dev\\.duxlabs\\.shell|com\\.danklinux\\.dms)$"
+    open-floating true
 }
 
 // @id=wr_1792936107939372501 @name=kitty
@@ -35,9 +36,9 @@ window-rule {
     opacity 1.00
 }
 
-// @id=dms-floating-windows @name=DMS Floating Windows
+// @id=wr_1793987929577209027 @name=org.localsend.localsend_app
 window-rule {
-    match app-id="^(dev\\.duxlabs\\.shell|com\\.danklinux\\.dms)$"
+    match app-id="^org.localsend.localsend_app$"
     open-floating true
 }
 
