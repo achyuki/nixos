@@ -6,7 +6,8 @@ _:
     config = ''
       global {
         wan_interface: auto
-        log_level: info
+        lan_interface: virbr0
+        log_level: error
         allow_insecure: false
         auto_config_kernel_parameter: true
       }
@@ -35,7 +36,7 @@ _:
         }
       }
       routing {
-        pname(clash, clash-meta, clash-verge, flclash, mihomo, verge-mihomo, sing-box) -> must_direct
+        pname(clash, clash-meta, clash-verge, FlClash, FlClashCore, mihomo, verge-mihomo, sing-box) -> must_direct
         # FK Campus Network
         #pname(tailscale, tailscaled) -> must_direct
         pname(wechat, WeChatAppEx) -> must_direct

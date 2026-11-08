@@ -40,7 +40,7 @@ in
 
         # Packages
         obs-studio localconn remmina chrome #firefox
-        devenv develop obsidian splayer clash
+        devenv develop obsidian splayer
         workstation libreoffice
         steam wine
         chatapp

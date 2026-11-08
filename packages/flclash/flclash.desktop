@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=FlClash
+Comment=Multi-platform proxy client based on ClashMeta
+Exec=FlClash %U
+Icon=flclash
+Terminal=false
+Type=Application
+Categories=Network;
+StartupWMClass=com.follow.clash
+MimeType=x-scheme-handler/clash;x-scheme-handler/clashmeta;x-scheme-handler/flclash;

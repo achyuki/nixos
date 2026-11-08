@@ -42,6 +42,14 @@ window-rule {
     open-floating true
 }
 
+// @id=wr_1794071255157191916 @name=.scrcpy-wrapped
+window-rule {
+    match app-id="^.scrcpy-wrapped$"
+    open-floating true
+    default-column-width { fixed 500; }
+    default-window-height { fixed 800; }
+}
+
 // @id=dms-window-opaque @name=DMS Window Opaque
 window-rule {
     match app-id="^(dev\\.duxlabs\\.shell|com\\.danklinux\\.dms)$"

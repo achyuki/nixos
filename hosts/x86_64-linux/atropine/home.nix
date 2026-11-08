@@ -1,9 +1,14 @@
 { pkgs, ... }:
 {
-  home.packages = with pkgs; [
-    localPkgs.looking-glass-client-git
-    localPkgs.uu-remote-linux
-    gpu-screen-recorder
+  home.packages =
+    with pkgs; 
+    with localPkgs;
+    [
+      looking-glass-client-git
+      uu-remote-linux
+      flclash
+      gpu-screen-recorder
+      scrcpy
 
   ];
   home.sessionPath = [
