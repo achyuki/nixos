@@ -1,0 +1,43 @@
+--- a/lib/common/launch.dart
++++ b/lib/common/launch.dart
+@@ -11,7 +11,7 @@
+   static AutoLaunch? _instance;
+ 
+   AutoLaunch._internal() {
+-    launcher.setup(appName: appName, appPath: Platform.resolvedExecutable);
++    launcher.setup(appName: appName, appPath: _launcherPath());
+   }
+ 
+   factory AutoLaunch() {
+@@ -38,7 +38,8 @@
+     if (kDebugMode) {
+       return;
+     }
+-    if (await isEnable == isAutoLaunch) return;
++    // Rewrite the entry on every start: after a package upgrade the path
++    // recorded in it points at the old generation.
+     if (isAutoLaunch == true) {
+       unawaited(enable());
+     } else {
+@@ -48,3 +49,21 @@
+ }
+ 
+ final autoLaunch = system.isDesktop && !safeModeBuild ? AutoLaunch() : null;
++
++/// Nixpkgs installs the launcher wrapper as `<prefix>/bin/<appName>`, one level
++/// above the `app/<pname>` bundle directory, and normally also puts it on
++/// `PATH` through the system or user profile. The `PATH` entry is preferred
++/// because it keeps pointing at the current generation after an upgrade, while
++/// the wrapper next to the bundle binary is a store path of the running build.
++/// Starting the bundle binary itself would skip the wrapper's environment,
++/// notably `LD_LIBRARY_PATH` for the native assets.
++String _launcherPath() {
++  final bundlePath = Platform.resolvedExecutable;
++  for (final dir in (Platform.environment['PATH'] ?? '').split(':')) {
++    if (dir.isEmpty) continue;
++    final candidate = '$dir/$appName';
++    if (File(candidate).existsSync()) return candidate;
++  }
++  final wrapper = '${File(bundlePath).parent.parent.parent.path}/bin/$appName';
++  return File(wrapper).existsSync() ? wrapper : bundlePath;
++}

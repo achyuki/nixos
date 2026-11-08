@@ -673,9 +673,9 @@
         {
           "id": "focusedWindow",
           "enabled": true,
-          "focusedWindowCompactMode": false,
           "focusedWindowShowIcon": true,
-          "focusedWindowSize": 1
+          "focusedWindowSize": 1,
+          "focusedWindowShowAppName": true
         }
       ],
       "centerWidgets": [
@@ -1045,7 +1045,7 @@
     }
   },
   "frameThickness": 5,
-  "configVersion": 42,
+  "configVersion": 43,
   "lockScreenWidgetInstances": [
     {
       "id": "lock_clock",
@@ -1258,5 +1258,6 @@
   "clipboardClickToPaste": true,
   "clipboardEnterToPaste": true,
   "clipboardSize": "compact",
-  "lockBeforeSuspend": false
+  "lockBeforeSuspend": false,
+  "displayShowDisconnected": false
 }

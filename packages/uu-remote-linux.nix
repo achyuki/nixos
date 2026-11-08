@@ -25,16 +25,16 @@
 
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "uu-remote-linux";
-  version = "0.2.53";
+  version = "0.2.56";
 
   src = fetchFromGitHub {
     owner = "VallierDev";
     repo = "uu-remote-linux";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-1asxZsBU2erDBk5udzYqC7Gct8+j8GVTqvHsIMPHIcw=";
+    hash = "sha256-EUeD8h7ifXxdscRq/MXX0KHdkD97YOJexqPHGucXfQU=";
   };
 
-  cargoHash = "sha256-HOPhzJzeK4/sgceiHD3T21NwOm2CDAT1K7svWu8ExXo=";
+  cargoHash = "sha256-XTlXZe9R9Dmp/0aDincwnbcD/lQvePm3k01Ii1NK+zA=";
 
   # The upstream release feature set: the wlroots Wayland and GNOME/KDE portal engines are
   # built as dlopen'ed plugins, so an X11 host needs none of their libraries present.

@@ -49,11 +49,22 @@ let
     modDirVersion = "7.4.0-rc1";
     ignoreConfigErrors = true;
   };
+  kernelPackages = pkgs.linuxPackagesFor kernel;
 
   alsa-ucm-conf-patched = pkgs.alsa-ucm-conf.overrideAttrs (oldAttrs: {
     patches = (oldAttrs.patches or [ ]) ++ [
       ../../../patches/sn624x-ucm-1.2.16.1.patch
     ];
+  });
+
+  nvidia-patched = kernelPackages.nvidiaPackages.latest.overrideAttrs (old: {
+    passthru = old.passthru // {
+      open = old.passthru.open.overrideAttrs (prev: {
+        patches = (prev.patches or [ ]) ++ [
+          ../../../patches/nvidia-open-615.78.08-linux-7.4-rc1.patch
+        ];
+      });
+    };
   });
 in
 {
@@ -78,16 +89,16 @@ in
       intel-media-driver
     ];
   };
-  # TODO
-  /*services.xserver.videoDrivers = [ "nvidia" ];
+
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     open = true;
-    branch = "production";
+    #branch = "production";
+    package = nvidia-patched;
 
     nvidiaSettings = true;
     modesetting.enable = true;
     powerManagement.enable = true;
-
     prime = {
       offload = {
         enable = true;
@@ -96,32 +107,19 @@ in
       intelBusId = "PCI:0@0:2:0";
       nvidiaBusId = "PCI:2@0:0:0";
     };
-  };*/
-
-  /*boot.kernelPatches = [
-    {
-      name = "uniwill-laptop";
-      patch = null;
-      structuredExtraConfig = with pkgs.lib.kernel; {
-        X86_PLATFORM_DEVICES = yes;
-        X86_PLATFORM_DRIVERS_UNIWILL = yes;
-        UNIWILL_LAPTOP = module;
-      };
-    }
-  ];*/
+  };
 
   boot.kernelParams = [
     "intel_iommu=on"
     "iommu=pt"
-    "kvm.ignore_msrs=1"
+    #"kvm.ignore_msrs=1"
   ];
-  #options uniwill-laptop force=1
   boot.extraModprobeConfig = ''
     options uniwill-laptop force=1
     options kvmfr static_size_mb=64
-    options vfio-pci ids=10de:2d19,10de:22eb
+    #options vfio-pci ids=10de:2d19,10de:22eb
   '';
-  boot.initrd.kernelModules = [
+  /*boot.initrd.kernelModules = [
     "vfio"
     "vfio_pci"
     "vfio_iommu_type1"
@@ -132,7 +130,7 @@ in
     "nvidia_modeset"
     "nvidia_uvm"
     "nvidia_wmi_ec_backlight"
-  ];
+  ];*/
   boot.extraModulePackages = with config.boot.kernelPackages; [ kvmfr ];
   boot.kernelModules = [ "uniwill-laptop" "kvmfr" ];
   virtualisation.libvirtd.qemu.verbatimConfig = ''
@@ -146,7 +144,7 @@ in
     ]
   '';
 
-  boot.kernelPackages = lib.mkForce (pkgs.linuxPackagesFor kernel);
+  boot.kernelPackages = lib.mkForce kernelPackages;
   environment.sessionVariables = {
     ALSA_CONFIG_UCM2 = "${alsa-ucm-conf-patched}/share/alsa/ucm2";
   };

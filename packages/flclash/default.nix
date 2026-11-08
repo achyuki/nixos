@@ -197,6 +197,13 @@ flutter.buildFlutterApplication {
 
   flutterBuildFlags = [ "--dart-define=APP_ENV=stable" ];
 
+  # The in-app autostart toggle records `Platform.resolvedExecutable`, which is
+  # the bundle binary here; starting that directly skips the launcher wrapper
+  # (LD_LIBRARY_PATH and the gapps environment), so native assets such as
+  # librust_api.so cannot be found. The patch points the entry at the wrapper
+  # and rewrites it on every start so an upgrade replaces the stale path.
+  patches = [ ./autostart-wrapper.patch ];
+
   # sqlcipher_flutter_libs 0.7.0+eol is an empty placeholder: it ships no
   # CMakeLists.txt to patch, and the default nixpkgs builder expects one.
   customSourceBuilders.sqlcipher_flutter_libs = { src, ... }: src;
