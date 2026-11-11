@@ -22,7 +22,7 @@ in
       audio bluetooth fonts polkit dbus udev
 
       # Packages
-      fhs nix-ld direnv comma fuse nvim ccache
+      fhs nix-ld appimage direnv comma fuse nvim ccache
       podman distrobox libvirt
       extpkgs wireshark
 
@@ -39,7 +39,7 @@ in
         niri-dms
 
         # Packages
-        obs-studio localconn remmina chrome #firefox
+        obs-studio localconn gearlever remmina chrome #firefox
         devenv develop obsidian splayer
         workstation libreoffice
         steam wine

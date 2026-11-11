@@ -1,0 +1,51 @@
+--- a/src/utility/filesystem_extractor.cpp
++++ b/src/utility/filesystem_extractor.cpp
+@@ -244,6 +244,30 @@
+   }
+ 
+   void close() override {
++    // The I/O thread must be joined even if closing the archive throws,
++    // otherwise a joinable thread is destroyed and the process is aborted.
++    scope_exit join_io_thread{[this] {
++      if (iot_) {
++        LOG_TRACE << "closing pipe[1]";
++        try {
++          closefd(pipefd_[1]);
++        } catch (...) {
++          LOG_ERROR << "close(pipe[1]) failed";
++        }
++
++        LOG_TRACE << "joining I/O thread";
++        iot_->join();
++        iot_.reset();
++
++        LOG_TRACE << "closing pipe[0]";
++        try {
++          closefd(pipefd_[0]);
++        } catch (...) {
++          LOG_ERROR << "close(pipe[0]) failed";
++        }
++      }
++    }};
++
+     if (!a_reg_.empty()) {
+       for (auto& ar : a_reg_) {
+         LOG_DEBUG << "closing regular file disk archive";
+@@ -260,17 +284,6 @@
+       a_.reset();
+     }
+ 
+-    if (iot_) {
+-      LOG_TRACE << "closing pipe[1]";
+-      closefd(pipefd_[1]);
+-
+-      LOG_TRACE << "joining I/O thread";
+-      iot_->join();
+-      iot_.reset();
+-
+-      LOG_TRACE << "closing pipe[0]";
+-      closefd(pipefd_[0]);
+-    }
+   }
+ 
+   bool
