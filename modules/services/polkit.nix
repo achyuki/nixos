@@ -13,6 +13,7 @@
   };
 
   security.soteria.enable = true;
+  systemd.user.services.polkit-soteria.environment.GSK_RENDERER = "cairo";
   services.gnome.gnome-keyring.enable = true;
   services.gnome.gcr-ssh-agent.enable = lib.mkForce false;
 }

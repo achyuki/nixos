@@ -1,0 +1,58 @@
+--- a/src/nvidia/arch/nvalloc/unix/src/dynamic-power.c
++++ b/src/nvidia/arch/nvalloc/unix/src/dynamic-power.c
+@@ -953,8 +953,7 @@
+     }
+ 
+     // Enable RTD3 infrastructure from OS side.
+-    if ((nvp->dynamic_power.mode == NV_DYNAMIC_PM_FINE) &&
+-        (nvp->dynamic_power.dynamic_power_regkey == NV_REG_DYNAMIC_POWER_MANAGEMENT_DEFAULT))
++    if (nvp->dynamic_power.mode == NV_DYNAMIC_PM_FINE)
+     {
+         // Enable Dynamic Rail-Gating for Tegra PCI iGPU
+         if (bIsTegraPciIgpuRgSupported)
+@@ -1011,8 +1010,7 @@
+     NV_ENTER_RM_RUNTIME(sp,fp);
+ 
+     // Disable RTD3 infrastructure from OS side.
+-    if (((nvp->dynamic_power.mode == NV_DYNAMIC_PM_FINE) &&
+-        (nvp->dynamic_power.dynamic_power_regkey == NV_REG_DYNAMIC_POWER_MANAGEMENT_DEFAULT)) ||
++    if ((nvp->dynamic_power.mode == NV_DYNAMIC_PM_FINE) ||
+         nv->is_tegra_pci_igpu_rg_enabled)
+     {
+         nv_disallow_runtime_suspend(nv);
+--- a/kernel-open/nvidia/nv-pci.c
++++ b/kernel-open/nvidia/nv-pci.c
+@@ -2692,10 +2692,12 @@
+      * sysfs or hotplug is synchronous, so the kthread overhead is not
+      * worthwhile.
+      */
+-    if (!smp_load_acquire(&nv_pci_driver_registration_in_progress))
+-    {
+-        return nv_pci_probe_body(pci_dev, id_table);
+-    }
++    /*
++     * Always run the probe body in the caller's context. Deferring it to a
++     * kthread loses that context's filesystem root, which makes filp_open()
++     * of the sysfs config file fail and disables runtime D3.
++     */
++    return nv_pci_probe_body(pci_dev, id_table);
+ 
+     NV_KZALLOC(probe_ctx, sizeof(*probe_ctx));
+     if (probe_ctx == NULL)
+@@ -3499,11 +3501,12 @@
+ #if defined(CONFIG_PM)
+     .driver.pm = &nv_pm_ops,
+ #endif
+-#if NV_PCI_ASYNC_PROBE_SUPPORTED
+-    .driver.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+-#else
++    /*
++     * Probe synchronously: the probe body opens the PCI config sysfs file for
++     * runtime D3, and filp_open() must run with the caller's filesystem root
++     * rather than a kworker's stale initramfs root.
++     */
+     .driver.probe_type = PROBE_FORCE_SYNCHRONOUS,
+-#endif
+ };
+ 
+ void nv_pci_wait_for_probe_complete(void)

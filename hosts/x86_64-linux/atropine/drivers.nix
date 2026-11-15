@@ -61,7 +61,9 @@ let
     passthru = old.passthru // {
       open = old.passthru.open.overrideAttrs (prev: {
         patches = (prev.patches or [ ]) ++ [
+          # make nvidia driver happy
           ../../../patches/nvidia-open-615.78.08-linux-7.4-rc1.patch
+          ../../../patches/nvidia-open-rtd3-fix.patch
         ];
       });
     };
@@ -89,7 +91,6 @@ in
       intel-media-driver
     ];
   };
-
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     open = true;
@@ -98,7 +99,10 @@ in
 
     nvidiaSettings = true;
     modesetting.enable = true;
-    powerManagement.enable = true;
+    powerManagement = {
+      enable = true;
+      finegrained = true;
+    };
     prime = {
       offload = {
         enable = true;
