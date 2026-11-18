@@ -10,6 +10,7 @@ let
       bridge_stp_helper
       request_key_helper
       {
+        # TODO: https://lore.kernel.org/all/20261116075101.862234-2-qianghua.wang@senarytech.com
         name = "sn6245-ptl";
         patch = ../../../patches/sn6245-ptl.patch;
       }
@@ -61,6 +62,7 @@ let
   });
   kernelPackages = pkgs.linuxPackagesFor kernel;
 
+  # TODO: https://github.com/alsa-project/alsa-ucm-conf/pull/849 
   alsa-ucm-conf-patched = pkgs.alsa-ucm-conf.overrideAttrs (oldAttrs: {
     patches = (oldAttrs.patches or [ ]) ++ [
       ../../../patches/sn624x-ucm-1.2.16.1.patch
@@ -71,7 +73,7 @@ let
     passthru = old.passthru // {
       open = old.passthru.open.overrideAttrs (prev: {
         patches = (prev.patches or [ ]) ++ [
-          # make nvidia driver happy
+          # TODO
           ../../../patches/nvidia-open-615.78.08-linux-7.4-rc1.patch
           ../../../patches/nvidia-open-rtd3-fix.patch
         ];

@@ -1,5 +1,5 @@
 diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c b/sound/soc/codecs/sn624x-sdca-sdw.c
-index c9e6904..8f9d7f3 100644
+index 855b2b6..719e94a 100644
 --- a/sound/soc/codecs/sn624x-sdca-sdw.c
 +++ b/sound/soc/codecs/sn624x-sdca-sdw.c
 @@ -1771,6 +1771,7 @@ static void sn624x_sdca_sdw_remove(struct sdw_slave *slave)
@@ -11,10 +11,10 @@ index c9e6904..8f9d7f3 100644
  	{ }
  };
 diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index 0ce51c4..467709d 100644
+index a589679..467709d 100644
 --- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
 +++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -495,10 +495,12 @@ static const struct snd_soc_acpi_link_adr _sym[] = {			\
+@@ -495,10 +495,12 @@
  
  SN624X_PTL_SINGLE_ADR(sn6242_single_adr, 0x0003300496624201ull);
  SN624X_PTL_SINGLE_ADR(sn6244_single_adr, 0x0003300496624401ull);
@@ -27,40 +27,22 @@ index 0ce51c4..467709d 100644
  SN624X_PTL_LINK(ptl_link_sn6247, sn6247_single_adr);
  
  struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
-@@ -599,21 +601,28 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
- 		.link_mask = BIT(3),
- 		.links = ptl_link_sn6242,
+@@ -608,6 +610,13 @@
  		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
-+		.sof_tplg_filename = "sof-sdw-generic.tplg",
+ 		.sof_tplg_filename = "sof-ptl-dummy.tplg",
  		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(3),
- 		.links = ptl_link_sn6244,
- 		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
-+		.sof_tplg_filename = "sof-sdw-generic.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
 +	},
 +	{
 +		.link_mask = BIT(3),
 +		.links = ptl_link_sn6245,
 +		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-sdw-generic.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
++		.sof_tplg_filename = "sof-ptl-dummy.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
  	},
  	{
  		.link_mask = BIT(3),
- 		.links = ptl_link_sn6247,
- 		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
-+		.sof_tplg_filename = "sof-sdw-generic.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{},
 diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index 7a19de7..c00038a 100644
+index 00788bf..edceee2 100644
 --- a/sound/soc/sdw_utils/soc_sdw_utils.c
 +++ b/sound/soc/sdw_utils/soc_sdw_utils.c
 @@ -1546,6 +1546,57 @@ struct asoc_sdw_codec_info codec_info_list[] = {

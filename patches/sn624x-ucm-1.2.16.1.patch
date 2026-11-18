@@ -1,28 +1,21 @@
-From 34e9f1c0a495ed45ed1216ee81ae10088da98be6 Mon Sep 17 00:00:00 2001
+From 44c4264788305e4158336c46a8b0bf7b744b584b Mon Sep 17 00:00:00 2001
 From: Qianghua Wang <qianghua.wang@senarytech.com>
-Date: Tue, 13 Oct 2026 09:38:00 +0800
+Date: Tue, 17 Nov 2026 11:08:57 +0800
 Subject: [PATCH] ucm2: sof-soundwire: add Senary SN624x SDCA support
 
-Add UCM device configs for CardComponents:
-  hs:sn624x-sdca spk:sn624x mic:sn624x-dmic
+Register sn624x in MultiCodec and add a single profile for speaker,
+headset jack/mic and DMIC, matching kernel CardComponents such as
+hs:sn624x-sdca spk:sn624x mic:sn624x-dmic.
 
-Register sn624x in MultiCodec and keep Speaker, Headphones,
-Microphones and Dmic in a single sn624x.conf. Headphones and Speaker
-stay mutually exclusive. Leave Speaker Switch to the playback path so
-a jack handoff does not re-arm the speaker amp. The Dmic device relies
-on PCM 4 alone, since the "Dmic Switch" pin control aborts disdevall.
-
-Existing sn6242* profiles do not match these component names.
-
-Tested on Intel PTL/WCL with sof-soundwire and SN624x SDCA driver
-(merged in ASoC for-7.4).
+Set CaptureChannels to 2 for headset mic and DMIC so userspace does
+not open a 4-channel capture that mismatches the SOF SDCA topology.
 
 Signed-off-by: Qianghua Wang <qianghua.wang@senarytech.com>
 ---
  ucm2/codecs/sn624x/init.conf          |   4 +
- ucm2/sof-soundwire/sn624x.conf        | 103 ++++++++++++++++++++++++++
+ ucm2/sof-soundwire/sn624x.conf        | 105 ++++++++++++++++++++++++++
  ucm2/sof-soundwire/sof-soundwire.conf |   3 +-
- 3 files changed, 109 insertions(+), 1 deletion(-)
+ 3 files changed, 111 insertions(+), 1 deletion(-)
  create mode 100644 ucm2/codecs/sn624x/init.conf
  create mode 100644 ucm2/sof-soundwire/sn624x.conf
 
@@ -38,10 +31,10 @@ index 0000000..276807d
 +# speaker and internal DMIC functions on a single SoundWire device.
 diff --git a/ucm2/sof-soundwire/sn624x.conf b/ucm2/sof-soundwire/sn624x.conf
 new file mode 100644
-index 0000000..8ebc893
+index 0000000..bbc48d6
 --- /dev/null
 +++ b/ucm2/sof-soundwire/sn624x.conf
-@@ -0,0 +1,103 @@
+@@ -0,0 +1,105 @@
 +# Use case Configuration for sof-soundwire card
 +
 +If.codec_spk {
@@ -117,6 +110,7 @@ index 0000000..8ebc893
 +				CapturePCM "hw:${CardId},1"
 +				JackControl "Headset Mic Jack"
 +				CaptureMixerElem "Headset Mic"
++				CaptureChannels 2
 +			}
 +		}
 +	}
@@ -141,6 +135,7 @@ index 0000000..8ebc893
 +			Value {
 +				CapturePriority 2000
 +				CapturePCM "hw:${CardId},4"
++				CaptureChannels 2
 +			}
 +		}
 +	}
@@ -166,6 +161,3 @@ index 3ccf493..1745a49 100644
  	}
  }
  
--- 
-2.56.0
-
