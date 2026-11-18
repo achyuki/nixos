@@ -42,7 +42,7 @@ in
         obs-studio localconn gearlever remmina chrome #firefox
         devenv develop obsidian splayer
         workstation libreoffice
-        steam wine
+        game
         chatapp
 
         ./home.nix

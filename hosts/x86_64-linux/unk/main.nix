@@ -39,7 +39,7 @@ in
         obs-studio localconn chrome #firefox
         devenv develop obsidian splayer clash
         workstation
-        steam wine
+        game
         chatapp
 
         ./home.nix

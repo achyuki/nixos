@@ -33,10 +33,12 @@
       "smartAutoHide": true,
       "useOverlayLayer": false,
       "editOnRightClick": false,
+      "showEditWidgetsInContextMenu": true,
       "showOnFullscreen": false,
       "openOnOverview": false,
       "groupByApp": false,
       "separatePinnedAndRunningApps": false,
+      "showRunningApps": true,
       "restoreSpecialWorkspaceOnClick": false,
       "isolateDisplays": false,
       "indicatorStyle": "circle",
@@ -1045,7 +1047,7 @@
     }
   },
   "frameThickness": 5,
-  "configVersion": 43,
+  "configVersion": 44,
   "lockScreenWidgetInstances": [
     {
       "id": "lock_clock",
