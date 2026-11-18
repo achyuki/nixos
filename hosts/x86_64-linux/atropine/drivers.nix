@@ -1,9 +1,10 @@
 { config, pkgs, lib, ... }:
 let
-  kernel = pkgs.buildLinux {
+  modDirVersion = "7.4.0-rc3";
+  kernel = (pkgs.buildLinux {
     src = pkgs.fetchzip {
-        url = "https://github.com/torvalds/linux/archive/refs/tags/v7.4-rc1.tar.gz";
-        hash = "sha256-OkOggNsjb5JSC5DW2i6Icauj+j4enfwBUjrms9LCVBY=";
+        url = "https://github.com/torvalds/linux/archive/refs/tags/v7.4-rc3.tar.gz";
+        hash = "sha256-Rj3JJU5xpoDEpIr2ukwAmyJkFguNRWvK8m2JUOykA18=";
       };
     kernelPatches = with pkgs.kernelPatches; [
       bridge_stp_helper
@@ -37,18 +38,27 @@ let
         };
       }
     ];
-    # TODO: ccache miss
-    /*stdenv = pkgs.ccacheStdenv.override {
+    stdenv = pkgs.ccacheStdenv.override {
       extraConfig = ''
         export CCACHE_DIR=${config.programs.ccache.cacheDir}
         export CCACHE_COMPRESS=1
         export CCACHE_SLOPPINESS=random_seed
       '';
-    };*/
-    version = "7.4-rc1";
-    modDirVersion = "7.4.0-rc1";
+    };
+    version = "7.4-rc3";
+    inherit modDirVersion;
     ignoreConfigErrors = true;
-  };
+  }).overrideAttrs (old: {
+    # make ccache happy
+    preUnpack = ''
+      mkdir -p "$dev/lib/modules/${modDirVersion}"
+      cd "$NIX_BUILD_TOP"
+    '';
+    postInstall = ''
+      mv -- "$NIX_BUILD_TOP/source" "$dev/lib/modules/${modDirVersion}/source"
+      cd "$dev/lib/modules/${modDirVersion}/source"
+    '' + old.postInstall;
+  });
   kernelPackages = pkgs.linuxPackagesFor kernel;
 
   alsa-ucm-conf-patched = pkgs.alsa-ucm-conf.overrideAttrs (oldAttrs: {
