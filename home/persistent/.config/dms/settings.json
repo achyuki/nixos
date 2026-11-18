@@ -365,7 +365,7 @@
       "cursorHideTimeout": 0
     }
   },
-  "acMonitorTimeout": 1800,
+  "acMonitorTimeout": 900,
   "acLockTimeout": 0,
   "batteryMonitorTimeout": 900,
   "batteryLockTimeout": 0,
