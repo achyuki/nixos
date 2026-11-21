@@ -11,9 +11,6 @@
       scrcpy
 
   ];
-  home.sessionPath = [
-    "$HOME/scripts"
-  ];
   pref.persistent = [
     "Pictures/wallpaper"
     "Pictures/avatar.webp"
