@@ -1,7 +1,7 @@
 {
   config,
-  lib,
   inputs,
+  lib,
   ...
 }:
 {
@@ -25,6 +25,7 @@
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
+      trusted-users = [ "@wheel" ];
     };
     registry = {
       osbuild.flake = inputs.self;

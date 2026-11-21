@@ -1,7 +1,7 @@
 {
   config,
-  lib,
   pkgs,
+  lib,
   ...
 }:
 let
@@ -35,7 +35,6 @@ in
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOqNxUrlnSLf8Vr0RPOPydlwRltW0kMboxtxwLV/gBTV"
       ];
     };
-
     programs.fish.enable = true;
 
     home-manager = lib.mkIf cfg.enable {
@@ -48,7 +47,5 @@ in
         };
       };
     };
-
-    nix.settings.trusted-users = [ username ];
   };
 }

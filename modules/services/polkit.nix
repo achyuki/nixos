@@ -1,10 +1,10 @@
-{ lib, ... }: {
+{ config, lib, ... }: {
   security.polkit = {
     enable = true;
     # https://discourse.nixos.org/t/breaking-changes-announcement-for-unstable/17574/139
     enablePkexecWrapper = true;
-    extraConfig = ''
-    polkit.addRule(function(action, subject) {
+    extraConfig = lib.mkIf config.pref.sudo-strict ''
+      polkit.addRule(function(action, subject) {
         if (subject.isInGroup("wheel")) {
             return polkit.Result.YES;
         }

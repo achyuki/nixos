@@ -54,6 +54,7 @@ in
     nix-cnmirror = true;
     nix-autogc = true;
     ssh-strict = true;
+    sudo-strict = false;
   };
 
 
